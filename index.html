@@ -1,0 +1,4116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasta encontramos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #e85d8c;
+      --primary-dark: #c83e6d;
+      --secondary: #ffd9e7;
+      --background: #fff8fb;
+      --card: #ffffff;
+      --text: #34232b;
+      --muted: #8d7780;
+      --border: #f2dce5;
+      --success: #55b889;
+      --shadow: 0 15px 45px rgba(176, 67, 112, 0.12);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #ffe7f0 0, transparent 32%),
+        radial-gradient(circle at bottom right, #ffeef5 0, transparent 30%),
+        var(--background);
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .screen {
+      min-height: 100vh;
+    }
+
+    .auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 1080px;
+      min-height: 650px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 35px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(15px);
+    }
+
+    .auth-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      color: white;
+      background:
+        linear-gradient(145deg, rgba(205, 54, 108, .9), rgba(239, 117, 157, .86)),
+        url("https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1000&q=80")
+        center/cover;
+    }
+
+    .auth-intro .heart {
+      font-size: 70px;
+      margin-bottom: 20px;
+    }
+
+    .auth-intro h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(38px, 5vw, 65px);
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .auth-intro p {
+      max-width: 400px;
+      line-height: 1.8;
+      font-size: 16px;
+      opacity: .95;
+    }
+
+    .auth-form-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 45px;
+    }
+
+    .auth-form {
+      width: 100%;
+      max-width: 390px;
+    }
+
+    .brand {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .auth-form h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .auth-form .subtitle {
+      color: var(--muted);
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      outline: none;
+      color: var(--text);
+      background: #fffafd;
+      transition: .2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(232, 93, 140, .1);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 19px;
+      border-radius: 13px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--primary);
+      box-shadow: 0 8px 18px rgba(232, 93, 140, .2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-secondary {
+      color: var(--primary-dark);
+      background: var(--secondary);
+    }
+
+    .btn-outline {
+      color: var(--text);
+      border: 1px solid var(--border);
+      background: white;
+    }
+
+    .btn-danger {
+      color: #b52f4d;
+      background: #ffe5eb;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .auth-switch button {
+      color: var(--primary);
+      background: transparent;
+      font-weight: 700;
+    }
+
+    .error-message,
+    .success-message {
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .error-message {
+      background: #ffe7ec;
+      color: #b52f4d;
+    }
+
+    .success-message {
+      background: #e4f8ed;
+      color: #278154;
+    }
+
+    .connect-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+    }
+
+    .connect-card {
+      width: 100%;
+      max-width: 650px;
+      padding: 45px;
+      text-align: center;
+      background: white;
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .connect-icon {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--secondary);
+      font-size: 42px;
+    }
+
+    .connect-card h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 35px;
+      margin-bottom: 13px;
+    }
+
+    .connect-card p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .code-box {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .code-box input {
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .app-layout {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 245px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 25px 15px;
+      background: white;
+      border-right: 1px solid var(--border);
+      z-index: 20;
+    }
+
+    .sidebar-brand {
+      padding: 0 15px 30px;
+      font-family: "Playfair Display", serif;
+      color: var(--primary);
+      font-size: 25px;
+    }
+
+    .sidebar-brand span {
+      display: block;
+      font-family: "DM Sans", sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 14px 15px;
+      border-radius: 14px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: var(--primary-dark);
+      background: #fff0f5;
+    }
+
+    .nav-icon {
+      width: 22px;
+      text-align: center;
+      font-size: 20px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+
+    .user-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px;
+      margin-bottom: 10px;
+      border-radius: 15px;
+      background: #fff7fa;
+    }
+
+    .avatar {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--primary-dark);
+      font-weight: 700;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-mini-info {
+      min-width: 0;
+    }
+
+    .user-mini-info strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .user-mini-info small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 245px;
+      padding: 35px;
+      max-width: 1500px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .page-title h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 36px;
+      margin-bottom: 5px;
+    }
+
+    .page-title p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 43px;
+      height: 43px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 13px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 18px;
+      transition: .2s;
+    }
+
+    .icon-btn:hover {
+      background: #fff0f5;
+      color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card {
+      background: white;
+      border: 1px solid rgba(242, 220, 229, .8);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(176, 67, 112, .04);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .card-title h3 {
+      font-size: 17px;
+    }
+
+    .card-title span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .welcome-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 225px;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(100deg, rgba(204, 52, 108, .96), rgba(239, 117, 157, .84)),
+        url("https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80")
+        center/cover;
+      color: white;
+    }
+
+    .welcome-card::after {
+      content: "♡";
+      position: absolute;
+      right: 30px;
+      bottom: -30px;
+      font-size: 220px;
+      line-height: 1;
+      opacity: .12;
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 1;
+      max-width: 650px;
+    }
+
+    .welcome-content small {
+      opacity: .9;
+      font-weight: 700;
+    }
+
+    .welcome-content h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 36px;
+      margin: 10px 0;
+    }
+
+    .welcome-content p {
+      opacity: .92;
+      line-height: 1.6;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 17px;
+      background: var(--secondary);
+      font-size: 25px;
+    }
+
+    .stat-card small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .stat-card strong {
+      font-size: 22px;
+    }
+
+    .couple-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      padding: 15px 0;
+    }
+
+    .couple-person {
+      text-align: center;
+    }
+
+    .couple-person .avatar {
+      width: 70px;
+      height: 70px;
+      margin: auto;
+      font-size: 23px;
+    }
+
+    .couple-person strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+
+    .couple-heart {
+      font-size: 25px;
+      color: var(--primary);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .quote-card {
+      background: linear-gradient(135deg, #fff0f5, #fff9fb);
+      text-align: center;
+    }
+
+    .quote-card .quote-mark {
+      font-size: 45px;
+      color: var(--primary);
+      line-height: .8;
+    }
+
+    .quote-card p {
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+
+    .quote-card small {
+      color: var(--muted);
+    }
+
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      height: calc(100vh - 145px);
+      min-height: 550px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .chat-list {
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .chat-list-header {
+      padding: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-list-header h3 {
+      margin-bottom: 15px;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fffafd;
+      outline: none;
+    }
+
+    .chat-contact {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 17px;
+      cursor: pointer;
+      background: #fff8fb;
+      border-left: 3px solid var(--primary);
+    }
+
+    .chat-contact-info {
+      min-width: 0;
+    }
+
+    .chat-contact-info strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .chat-contact-info small {
+      color: var(--success);
+      font-size: 12px;
+    }
+
+    .chat-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.8), transparent 25%),
+        #fff7fa;
+    }
+
+    .chat-main.chat-bg-lavender {
+      background: linear-gradient(135deg, #f5f0ff, #eee7ff);
+    }
+
+    .chat-main.chat-bg-blue {
+      background: linear-gradient(135deg, #eef7ff, #e5f1ff);
+    }
+
+    .chat-main.chat-bg-cream {
+      background: linear-gradient(135deg, #fffaf0, #fff3df);
+    }
+
+    .chat-main.chat-bg-dark {
+      background: linear-gradient(135deg, #302630, #211c24);
+    }
+
+    .chat-main.chat-bg-dark .messages {
+      color: #fff;
+    }
+
+    .chat-main.chat-bg-dark .date-separator {
+      background: rgba(255,255,255,.12);
+      color: #eadfe7;
+    }
+
+    .chat-main.chat-bg-dark .message.received {
+      background: #403541;
+      color: #fff;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 22px;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-header-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-user strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .chat-header-user small {
+      color: var(--success);
+      font-size: 12px;
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .messages {
+      flex: 1;
+      padding: 25px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .date-separator {
+      align-self: center;
+      padding: 6px 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      background: #f9e5ed;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .message {
+      max-width: min(70%, 500px);
+      padding: 10px 13px 7px;
+      border-radius: 15px;
+      font-size: 14px;
+      line-height: 1.45;
+      position: relative;
+      word-wrap: break-word;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background: white;
+      border-top-left-radius: 4px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.03);
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      color: #572538;
+      background: #ffd9e7;
+      border-top-right-radius: 4px;
+    }
+
+    .message-meta {
+      display: flex;
+      justify-content: flex-end;
+      gap: 5px;
+      margin-top: 4px;
+      color: #a98996;
+      font-size: 10px;
+    }
+
+    .message-status {
+      color: #4389bd;
+      font-weight: 700;
+    }
+
+    .typing-indicator {
+      align-self: flex-start;
+      padding: 10px 15px;
+      border-radius: 15px;
+      background: white;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .chat-input-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      padding: 15px;
+      background: white;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: #fffafd;
+    }
+
+    .chat-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 13px 0;
+      background: transparent;
+      max-height: 110px;
+    }
+
+    .emoji-button {
+      background: transparent;
+      font-size: 20px;
+    }
+
+    .send-button {
+      width: 47px;
+      height: 47px;
+      border-radius: 14px;
+      color: white;
+      background: var(--primary);
+      font-size: 19px;
+    }
+
+    .settings-panel {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      background: #fffafd;
+    }
+
+    .settings-panel h4 {
+      margin-bottom: 15px;
+    }
+
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+    }
+
+    .setting-row span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .setting-row input[type="color"] {
+      width: 42px;
+      height: 30px;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+
+
+    /* =========================
+       FONDO DEL CHAT CON IA
+       ========================= */
+    .ai-background-row {
+      display: block;
+      padding: 15px 0;
+    }
+
+    .ai-background-row > div:first-child {
+      margin-bottom: 10px;
+    }
+
+    .ai-background-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ai-background-preview {
+      width: 100%;
+      height: 150px;
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, #fff0f5, #f5f0ff);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+      overflow: hidden;
+    }
+
+    .ai-background-preview.has-image {
+      color: white;
+      text-shadow: 0 2px 8px rgba(0,0,0,.35);
+    }
+
+    .ai-loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-mini-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--secondary);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    .chat-main.chat-bg-custom {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: local;
+    }
+
+    .chat-main.chat-bg-custom .messages {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(1px);
+    }
+
+    .chat-main.chat-bg-custom .message.received {
+      background: rgba(255,255,255,.92);
+    }
+
+    .chat-main.chat-bg-custom .message.sent {
+      box-shadow: 0 4px 18px rgba(80,30,60,.08);
+    }
+
+    .ai-prompt-examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .ai-example {
+      padding: 7px 9px;
+      border-radius: 10px;
+      background: #fff0f5;
+      color: var(--primary-dark);
+      font-size: 11px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+
+    .ai-example:hover {
+      background: var(--secondary);
+    }
+
+    .chat-main.chat-bg-custom {
+      background-size:cover;
+      background-position:center;
+      background-repeat:no-repeat;
+      background-attachment:local;
+    }
+
+    .selected-day-panel {
+      margin:16px 0;
+      padding:16px;
+      border:1px solid rgba(122,90,150,.14);
+      border-radius:18px;
+      background:rgba(255,255,255,.82);
+      box-shadow:0 10px 28px rgba(70,45,90,.06);
+    }
+    .selected-day-panel.hidden { display:none; }
+    .selected-day-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+    .selected-day-label {
+      font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+      color:var(--muted);font-weight:700;
+    }
+    .selected-day-head h3 { margin:4px 0 0;font-size:20px; }
+    .selected-day-events { display:grid;gap:9px; }
+    .selected-event-card {
+      padding:12px 14px;border-radius:14px;background:rgba(248,245,252,.92);
+    }
+    .selected-event-card strong { display:block;margin-bottom:3px; }
+    .selected-event-card small { color:var(--muted);line-height:1.45; }
+    .selected-day-empty { color:var(--muted);font-size:13px;padding:8px 0 2px; }
+
+    .pet-layout {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 22px;
+    }
+
+    .pet-stage {
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, #ffeef6, #fffafd);
+    }
+
+    .pet-stage::before {
+      content: "";
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.7);
+      top: 45px;
+    }
+
+    .pet-name {
+      position: relative;
+      z-index: 1;
+      font-family: "Playfair Display", serif;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .pet-mood {
+      position: relative;
+      z-index: 1;
+      color: var(--muted);
+      margin-bottom: 35px;
+    }
+
+    .pet-character {
+      position: relative;
+      z-index: 1;
+      width: 190px;
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 130px;
+      animation: petFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 15px 12px rgba(180, 80, 120, .15));
+    }
+
+    @keyframes petFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    .pet-shadow {
+      position: relative;
+      z-index: 0;
+      width: 170px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(190, 90, 130, .12);
+      filter: blur(3px);
+    }
+
+    .pet-speech {
+      position: relative;
+      z-index: 1;
+      max-width: 350px;
+      padding: 13px 18px;
+      margin-top: 25px;
+      border-radius: 17px;
+      background: white;
+      color: var(--muted);
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,.04);
+    }
+
+    .pet-stats {
+      display: grid;
+      gap: 17px;
+    }
+
+    .pet-stat {
+      padding: 17px;
+      border-radius: 17px;
+      background: #fff7fa;
+    }
+
+    .pet-stat-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .progress {
+      height: 9px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #f3e0e8;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: var(--primary);
+      transition: width .4s;
+    }
+
+    .pet-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .pet-action {
+      padding: 14px 10px;
+      border-radius: 15px;
+      color: var(--text);
+      background: white;
+      border: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .pet-action:hover {
+      background: #fff0f5;
+      color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .pet-action span {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .pet-customize {
+      margin-top: 22px;
+    }
+
+    .pet-customize h4 {
+      margin-bottom: 12px;
+    }
+
+    .pet-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pet-option {
+      width: 43px;
+      height: 43px;
+      border-radius: 12px;
+      background: #fff0f5;
+      border: 2px solid transparent;
+      font-size: 23px;
+    }
+
+    .pet-option.selected {
+      border-color: var(--primary);
+    }
+
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 22px;
+    }
+
+    .calendar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .calendar-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+    }
+
+    .calendar-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .calendar-weekdays,
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .calendar-weekdays {
+      margin-bottom: 10px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .calendar-day {
+      min-height: 75px;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fffafd;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .calendar-day:hover {
+      border-color: var(--primary);
+    }
+
+    .calendar-day.other-month {
+      opacity: .35;
+    }
+
+    .calendar-day.today {
+      border: 2px solid var(--primary);
+    }
+
+    .calendar-day-number {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .calendar-event-dot {
+      display: block;
+      margin-top: 10px;
+      padding: 3px 5px;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #ffd9e7;
+      color: #a22c59;
+      font-size: 9px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .event-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      background: #fff7fa;
+    }
+
+    .event-date {
+      min-width: 43px;
+      text-align: center;
+      padding: 7px;
+      border-radius: 10px;
+      background: var(--secondary);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .event-info {
+      flex: 1;
+    }
+
+    .event-info strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .event-info small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .event-delete {
+      color: #c95b78;
+      background: transparent;
+      font-size: 16px;
+    }
+
+    .profile-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 22px;
+    }
+
+    .profile-card {
+      text-align: center;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      margin: 10px auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--secondary);
+      color: var(--primary-dark);
+      font-size: 40px;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-card h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .profile-card p {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .profile-bio {
+      padding: 17px;
+      margin-top: 20px;
+      border-radius: 15px;
+      background: #fff7fa;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .profile-info {
+      display: grid;
+      gap: 18px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 17px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .info-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .info-row strong {
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(45, 20, 30, .42);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 28px;
+      border-radius: 25px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .modal-header h3 {
+      font-family: "Playfair Display", serif;
+      font-size: 27px;
+    }
+
+    .modal-close {
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+      background: #fff0f5;
+      color: var(--primary-dark);
+      font-size: 18px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      z-index: 300;
+      max-width: 320px;
+      padding: 15px 18px;
+      border-radius: 14px;
+      color: white;
+      background: #34232b;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s;
+      font-size: 13px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    .loading-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 15px;
+      color: var(--primary);
+    }
+
+    .spinner {
+      width: 45px;
+      height: 45px;
+      border: 4px solid var(--secondary);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 1050px) {
+      .auth-wrapper {
+        max-width: 800px;
+      }
+
+      .auth-intro {
+        padding: 35px;
+      }
+
+      .main-content {
+        padding: 25px;
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pet-layout,
+      .calendar-layout,
+      .profile-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .auth-wrapper {
+        display: block;
+      }
+
+      .auth-intro {
+        display: none;
+      }
+
+      .auth-form-container {
+        min-height: 650px;
+        padding: 30px;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        top: auto;
+        bottom: 0;
+        padding: 8px;
+        border-right: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .sidebar-brand,
+      .sidebar-bottom {
+        display: none;
+      }
+
+      .nav-menu {
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 3px;
+      }
+
+      .nav-item {
+        flex: 1;
+        justify-content: center;
+        padding: 10px 5px;
+        font-size: 10px;
+        flex-direction: column;
+        gap: 3px;
+      }
+
+      .nav-icon {
+        font-size: 19px;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 20px 15px 95px;
+      }
+
+      .topbar {
+        margin-bottom: 20px;
+      }
+
+      .page-title h1 {
+        font-size: 29px;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+      }
+
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-content h2 {
+        font-size: 29px;
+      }
+
+      .chat-layout {
+        grid-template-columns: 1fr;
+        height: calc(100vh - 175px);
+      }
+
+      .chat-list {
+        display: none;
+      }
+
+      .message {
+        max-width: 85%;
+      }
+
+      .calendar-day {
+        min-height: 52px;
+        padding: 5px;
+      }
+
+      .calendar-event-dot {
+        display: none;
+      }
+
+      .calendar-weekdays,
+      .calendar-days {
+        gap: 4px;
+      }
+
+      .connect-card {
+        padding: 30px 20px;
+      }
+
+      .code-box {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loadingScreen" class="loading-screen">
+    <div class="spinner"></div>
+    <strong>Cargando Amor Conectado...</strong>
+  </div>
+
+  <!-- AUTENTICACIÓN -->
+  <section id="authScreen" class="screen auth-screen hidden">
+    <div class="auth-wrapper">
+      <div class="auth-intro">
+        <div class="heart">💗</div>
+        <h1>Hasta<br>Encontrarnos</h1>
+        <p>
+          Un espacio privado para compartir momentos,
+          conversaciones, recuerdos y pequeños detalles
+          con la persona que amas.
+        </p>
+      </div>
+
+      <div class="auth-form-container">
+        <div class="auth-form">
+          <div class="brand">♡ Hasta Encontrarnos</div>
+
+          <div id="loginForm">
+            <h2>Bienvenidos</h2>
+            <p class="subtitle">
+              Ingresa a vuestro espacio especial.
+            </p>
+
+            <div id="loginError" class="error-message"></div>
+
+            <div class="form-group">
+              <label for="loginEmail">Correo electrónico</label>
+              <input
+                id="loginEmail"
+                class="form-control"
+                type="email"
+                placeholder="correo@ejemplo.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword">Contraseña</label>
+              <input
+                id="loginPassword"
+                class="form-control"
+                type="password"
+                placeholder="Tu contraseña"
+              />
+            </div>
+
+            <button id="loginBtn" class="btn btn-primary btn-full">
+              Iniciar sesión
+            </button>
+
+            <div class="auth-switch">
+              ¿Aún no tienes una cuenta?
+              <button id="showRegisterBtn">Regístrate</button>
+            </div>
+          </div>
+
+          <div id="registerForm" class="hidden">
+            <h2>Crear cuenta</h2>
+            <p class="subtitle">
+              Empieza a construir vuestro espacio de amor.
+            </p>
+
+            <div id="registerError" class="error-message"></div>
+
+            <div class="form-group">
+              <label for="registerName">Tu nombre</label>
+              <input
+                id="registerName"
+                class="form-control"
+                type="text"
+                placeholder="Ej. Abraham"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="registerEmail">Correo electrónico</label>
+              <input
+                id="registerEmail"
+                class="form-control"
+                type="email"
+                placeholder="correo@ejemplo.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="registerPassword">Contraseña</label>
+              <input
+                id="registerPassword"
+                class="form-control"
+                type="password"
+                placeholder="Mínimo 6 caracteres"
+              />
+            </div>
+
+            <button id="registerBtn" class="btn btn-primary btn-full">
+              Crear mi cuenta
+            </button>
+
+            <div class="auth-switch">
+              ¿Ya tienes una cuenta?
+              <button id="showLoginBtn">Inicia sesión</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONECTAR PAREJA -->
+  <section id="connectScreen" class="screen connect-screen hidden">
+    <div class="connect-card">
+      <div class="connect-icon">💞</div>
+      <h2>Conecta con tu pareja</h2>
+      <p>
+        Para ingresar a vuestro espacio privado, conecta tu cuenta
+        con la cuenta de tu pareja.
+      </p>
+
+      <div id="connectError" class="error-message"></div>
+      <div id="connectSuccess" class="success-message"></div>
+
+      <h4>Tu código de conexión</h4>
+
+      <div class="code-box">
+        <input
+          id="myConnectionCode"
+          class="form-control"
+          readonly
+          placeholder="Generando código..."
+        />
+        <button id="copyCodeBtn" class="btn btn-secondary">
+          Copiar
+        </button>
+      </div>
+
+      <div class="divider">o conecta con un código</div>
+
+      <div class="form-group">
+        <input
+          id="partnerCodeInput"
+          class="form-control"
+          placeholder="Escribe el código de tu pareja"
+        />
+      </div>
+
+      <button id="connectPartnerBtn" class="btn btn-primary btn-full">
+        💗 Conectar con mi pareja
+      </button>
+
+      <button id="logoutFromConnectBtn" class="btn btn-outline btn-full" style="margin-top: 12px;">
+        Cerrar sesión
+      </button>
+    </div>
+  </section>
+
+  <!-- APLICACIÓN -->
+  <section id="appScreen" class="screen hidden">
+    <div class="app-layout">
+
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          Hasta Encontrarnos
+          <span>VUESTRO ESPACIO PRIVADO</span>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-item active" data-page="homePage">
+            <span class="nav-icon">⌂</span>
+            <span>Inicio</span>
+          </button>
+
+          <button class="nav-item" data-page="chatPage">
+            <span class="nav-icon">💬</span>
+            <span>Chat</span>
+          </button>
+
+          <button class="nav-item" data-page="petPage">
+            <span class="nav-icon">🐻</span>
+            <span>Mascota</span>
+          </button>
+
+          <button class="nav-item" data-page="calendarPage">
+            <span class="nav-icon">🗓️</span>
+            <span>Calendario</span>
+          </button>
+
+          <button class="nav-item" data-page="profilePage">
+            <span class="nav-icon">♡</span>
+            <span>Mi perfil</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="user-mini">
+            <div id="sidebarAvatar" class="avatar">A</div>
+            <div class="user-mini-info">
+              <strong id="sidebarUserName">Usuario</strong>
+              <small>En pareja 💗</small>
+            </div>
+          </div>
+
+          <button id="logoutBtn" class="btn btn-outline btn-full">
+            Cerrar sesión
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+
+        <!-- INICIO -->
+        <div id="homePage" class="page">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Hola, <span id="homeUserName">amor</span> 💗</h1>
+              <p>Este es vuestro pequeño universo.</p>
+            </div>
+
+            <div class="topbar-actions">
+              <button class="icon-btn" data-page="profilePage">⚙️</button>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-bottom: 22px;">
+            <div class="card welcome-card">
+              <div class="welcome-content">
+                <small>VUESTRO ESPACIO ESPECIAL</small>
+                <h2>Un lugar para dos corazones.</h2>
+                <p>
+                  Guarda conversaciones, fechas importantes,
+                  recuerdos y momentos que quieran compartir.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-3" style="margin-bottom: 22px;">
+            <div class="card stat-card">
+              <div class="stat-icon">💬</div>
+              <div>
+                <small>Mensajes compartidos</small>
+                <strong id="messageCount">0</strong>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon">🗓️</div>
+              <div>
+                <small>Próximos eventos</small>
+                <strong id="eventCount">0</strong>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon">🐻</div>
+              <div>
+                <small>Estado de la mascota</small>
+                <strong id="petStatusHome">Feliz</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-title">
+                <h3>Vuestra conexión</h3>
+                <span>Juntos</span>
+              </div>
+
+              <div class="couple-preview">
+                <div class="couple-person">
+                  <div id="homeMyAvatar" class="avatar">A</div>
+                  <strong id="homeMyName">Tú</strong>
+                </div>
+
+                <div class="couple-heart">♥</div>
+
+                <div class="couple-person">
+                  <div id="homePartnerAvatar" class="avatar">♡</div>
+                  <strong id="homePartnerName">Tu pareja</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card quote-card">
+              <div class="quote-mark">“</div>
+              <p id="dailyQuote">
+                El amor se construye en los pequeños detalles.
+              </p>
+              <small>Un pensamiento para ustedes</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAT -->
+        <div id="chatPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Chat 💬</h1>
+              <p>Conversen, compartan y manténganse cerca.</p>
+            </div>
+          </div>
+
+          <div class="chat-layout">
+            <aside class="chat-list">
+              <div class="chat-list-header">
+                <h3>Conversaciones</h3>
+                <input class="search-box" placeholder="Buscar..." />
+              </div>
+
+              <div class="chat-contact">
+                <div id="chatContactAvatar" class="avatar">♡</div>
+                <div class="chat-contact-info">
+                  <strong id="chatContactName">Tu pareja</strong>
+                  <small>● En línea</small>
+                </div>
+              </div>
+            </aside>
+
+            <section class="chat-main">
+              <header class="chat-header">
+                <div class="chat-header-user">
+                  <div id="chatHeaderAvatar" class="avatar">♡</div>
+                  <div>
+                    <strong id="chatHeaderName">Tu pareja</strong>
+                    <small id="chatOnlineStatus">En línea</small>
+                  </div>
+                </div>
+
+                <div class="chat-header-actions">
+                  <button id="chatSettingsBtn" class="icon-btn" title="Configuración">
+                    ⚙️
+                  </button>
+                </div>
+              </header>
+
+              <div id="chatSettingsPanel" class="settings-panel hidden">
+                <h4>Configuración del chat</h4>
+
+                <div class="setting-row">
+                  <span>Color de mis mensajes</span>
+                  <input id="chatColorInput" type="color" value="#ffd9e7" />
+                </div>
+
+                <div class="setting-row">
+                  <span>Fondo del chat</span>
+                  <select id="chatBackgroundSelect" class="form-control" style="width: 160px; padding: 8px 10px;">
+                    <option value="default">Rosa suave</option>
+                    <option value="lavender">Lavanda</option>
+                    <option value="blue">Azul cielo</option>
+                    <option value="cream">Crema</option>
+                    <option value="dark">Noche</option>
+                  </select>
+                </div>
+<div class="setting-row" style="display:block;">
+                  <div style="margin-bottom:10px;">
+                    <span>Fondo personalizado</span>
+                    <small style="display:block;color:var(--muted);font-weight:400;margin-top:4px;">
+                      Elige una imagen de tu galería para vuestro chat.
+                    </small>
+                  </div>
+                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <label for="chatBackgroundFile" class="btn btn-secondary" style="margin:0;cursor:pointer;">
+                      🖼️ Elegir de mi galería
+                    </label>
+                    <input id="chatBackgroundFile" type="file" accept="image/*" hidden>
+                    <button id="removeChatBackgroundBtn" class="btn btn-outline" type="button">
+                      🗑️ Quitar fondo
+                    </button>
+                  </div>
+                  <div id="chatBackgroundUploadStatus" style="font-size:12px;color:var(--muted);margin-top:9px;"></div>
+                </div>
+
+                <div class="setting-row">
+                  <span>Mostrar hora de mensajes</span>
+                  <input id="showTimeToggle" type="checkbox" checked />
+                </div>
+
+                <div class="setting-row">
+                  <span>Sonido de notificaciones</span>
+                  <input id="soundToggle" type="checkbox" checked />
+                </div>
+
+                <div style="margin-top: 15px;">
+                  <button id="clearChatBtn" class="btn btn-danger">
+                    Limpiar conversación
+                  </button>
+                </div>
+              </div>
+
+              <div id="messagesContainer" class="messages">
+                <div class="date-separator">Hoy</div>
+              </div>
+
+              <div id="typingIndicator" class="typing-indicator hidden">
+                Tu pareja está escribiendo...
+              </div>
+
+              <div class="chat-input-area">
+                <button id="emojiBtn" class="emoji-button">😊</button>
+
+                <div class="chat-input-wrapper">
+                  <textarea
+                    id="messageInput"
+                    class="chat-input"
+                    rows="1"
+                    placeholder="Escribe un mensaje..."
+                  ></textarea>
+                </div>
+
+                <button id="sendMessageBtn" class="send-button">➤</button>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- MASCOTA -->
+        <div id="petPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Vuestra mascota 🐻</h1>
+              <p>Cuídenla juntos y hagan crecer vuestro vínculo.</p>
+            </div>
+
+            <button id="petSettingsBtn" class="icon-btn">⚙️</button>
+          </div>
+
+          <div class="pet-layout">
+            <div class="card pet-stage">
+              <div id="petNameDisplay" class="pet-name">Lunita</div>
+              <div id="petMoodDisplay" class="pet-mood">Está esperando cariño</div>
+
+              <div id="petCharacter" class="pet-character">🐻</div>
+              <div class="pet-shadow"></div>
+
+              <div id="petSpeech" class="pet-speech">
+                ¡Hola! ¿Jugamos un ratito?
+              </div>
+            </div>
+
+            <div>
+              <div class="card">
+                <div class="card-title">
+                  <h3>Estado de la mascota</h3>
+                  <span id="petLevelDisplay">Nivel 1</span>
+                </div>
+
+                <div class="pet-stats">
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>🍎 Alimentación</span>
+                      <span id="petHungerValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petHungerBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>⚡ Energía</span>
+                      <span id="petEnergyValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petEnergyBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>💗 Felicidad</span>
+                      <span id="petHappinessValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petHappinessBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pet-actions">
+                  <button class="pet-action" data-pet-action="feed">
+                    <span>🍎</span>
+                    Alimentar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="play">
+                    <span>🎾</span>
+                    Jugar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="pet">
+                    <span>🤗</span>
+                    Acariciar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="sleep">
+                    <span>🌙</span>
+                    Dormir
+                  </button>
+                </div>
+              </div>
+
+              <div class="card pet-customize">
+                <h4>Personalizar mascota</h4>
+
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input id="petNameInput" class="form-control" placeholder="Nombre de la mascota" />
+                </div>
+
+                <div class="form-group">
+                  <label>Elegir mascota</label>
+                  <div class="pet-options">
+                    <button class="pet-option selected" data-pet-emoji="🐻">🐻</button>
+                    <button class="pet-option" data-pet-emoji="🐰">🐰</button>
+                    <button class="pet-option" data-pet-emoji="🐱">🐱</button>
+                    <button class="pet-option" data-pet-emoji="🐶">🐶</button>
+                    <button class="pet-option" data-pet-emoji="🦊">🦊</button>
+                    <button class="pet-option" data-pet-emoji="🐼">🐼</button>
+                  </div>
+                </div>
+
+                <button id="savePetBtn" class="btn btn-primary btn-full">
+                  Guardar cambios
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALENDARIO -->
+        <div id="calendarPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Calendario 🗓️</h1>
+              <p>Guarden sus fechas y momentos importantes.</p>
+            </div>
+
+            <button id="newEventBtn" class="btn btn-primary">
+              + Nuevo evento
+            </button>
+          </div>
+
+          <div class="calendar-layout">
+            <div class="card">
+              <div class="calendar-header">
+                <h2 id="calendarMonthTitle">Mes</h2>
+
+                <div class="calendar-controls">
+                  <button id="prevMonthBtn" class="icon-btn">‹</button>
+                  <button id="todayBtn" class="btn btn-outline">Hoy</button>
+                  <button id="nextMonthBtn" class="icon-btn">›</button>
+                </div>
+              </div>
+
+              <div class="calendar-weekdays">
+                <span>Lun</span>
+                <span>Mar</span>
+                <span>Mié</span>
+                <span>Jue</span>
+                <span>Vie</span>
+                <span>Sáb</span>
+                <span>Dom</span>
+              </div>
+
+              <div id="calendarDays" class="calendar-days"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Próximos eventos</h3>
+                <span id="eventsSubtitle">Compartidos</span>
+              </div>
+
+              <div id="selectedDayPanel" class="selected-day-panel hidden">
+            <div class="selected-day-head">
+              <div>
+                <div class="selected-day-label">Día seleccionado</div>
+                <h3 id="selectedDayTitle">Selecciona un día</h3>
+              </div>
+              <button id="addEventForSelectedDayBtn" class="btn btn-primary" type="button">＋ Agregar evento</button>
+            </div>
+            <div id="selectedDayEvents" class="selected-day-events"></div>
+          </div>
+
+          <div id="eventsList" class="event-list">
+                <p style="color: var(--muted); font-size: 13px;">
+                  Todavía no tienen eventos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PERFIL -->
+        <div id="profilePage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Mi perfil ♡</h1>
+              <p>Personaliza tu información dentro de la aplicación.</p>
+            </div>
+
+            <button id="profileSettingsBtn" class="icon-btn">⚙️</button>
+          </div>
+
+          <div class="profile-layout">
+            <div class="card profile-card">
+              <div id="profileAvatar" class="profile-avatar">A</div>
+              <h2 id="profileNameDisplay">Usuario</h2>
+              <p id="profileEmailDisplay">correo@ejemplo.com</p>
+
+              <div id="profileBioDisplay" class="profile-bio">
+                Aún no has agregado una descripción.
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Información personal</h3>
+                <span>Privado</span>
+              </div>
+
+              <div class="profile-info">
+                <div class="info-row">
+                  <span>Nombre</span>
+                  <strong id="infoName">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Correo electrónico</span>
+                  <strong id="infoEmail">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Fecha de registro</span>
+                  <strong id="infoCreated">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Estado de conexión</span>
+                  <strong style="color: var(--success);">Conectado 💗</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+  <!-- MODAL PERFIL -->
+  <div id="profileModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Editar mi perfil</h3>
+        <button class="modal-close" data-close-modal="profileModal">×</button>
+      </div>
+
+      <div id="profileModalError" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="editProfileName">Nombre</label>
+        <input id="editProfileName" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="editProfileBio">Descripción</label>
+        <textarea
+          id="editProfileBio"
+          class="form-control"
+          placeholder="Escribe algo sobre ti..."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="editProfilePhoto">Foto de perfil</label>
+        <input
+          id="editProfilePhoto"
+          class="form-control"
+          placeholder="URL opcional de la foto"
+        />
+        <div style="margin-top: 10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <label for="profilePhotoFile" class="btn btn-secondary" style="margin:0;">📷 Elegir de mi galería</label>
+          <input id="profilePhotoFile" type="file" accept="image/*" hidden />
+          <button id="removeProfilePhotoBtn" type="button" class="btn btn-outline">🗑️ Quitar foto</button>
+        </div>
+        <small style="display:block; margin-top:8px; color:var(--muted);">Puedes elegir una foto desde tu celular o computadora.</small>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" data-close-modal="profileModal">
+          Cancelar
+        </button>
+        <button id="saveProfileBtn" class="btn btn-primary">
+          Guardar cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EVENTO -->
+  <div id="eventModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Nuevo evento</h3>
+        <button class="modal-close" data-close-modal="eventModal">×</button>
+      </div>
+
+      <div id="eventModalError" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="eventTitleInput">Título del evento</label>
+        <input
+          id="eventTitleInput"
+          class="form-control"
+          placeholder="Ej. Aniversario"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="eventDateInput">Fecha</label>
+        <input id="eventDateInput" class="form-control" type="date" />
+      </div>
+
+      <div class="form-group">
+        <label for="eventDescriptionInput">Descripción</label>
+        <textarea
+          id="eventDescriptionInput"
+          class="form-control"
+          placeholder="Detalles del evento..."
+        ></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" data-close-modal="eventModal">
+          Cancelar
+        </button>
+        <button id="saveEventBtn" class="btn btn-primary">
+          Guardar evento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MASCOTA -->
+  <div id="petSettingsModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Configuración de mascota</h3>
+        <button class="modal-close" data-close-modal="petSettingsModal">×</button>
+      </div>
+
+      <p style="color: var(--muted); line-height: 1.6; font-size: 14px;">
+        La mascota comparte su estado con tu pareja. Cada acción que realicen
+        modificará sus niveles de energía, alimentación y felicidad.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" data-close-modal="petSettingsModal">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="toast" class="toast"></div>
+
+  <!-- FIREBASE -->
+  <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc,
+      updateDoc,
+      addDoc,
+      collection,
+      query,
+      where,
+      orderBy,
+      onSnapshot,
+      serverTimestamp,
+      deleteDoc,
+      getDocs,
+      limit
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getStorage,
+      ref as storageRef,
+      uploadBytes,
+      getDownloadURL,
+      deleteObject
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    /*
+    ============================================================
+    CONFIGURACIÓN DE FIREBASE
+    ============================================================
+
+    Configuración conectada al proyecto Firebase de Hasta Encontrarnos.
+
+    Firebase Console:
+    https://console.firebase.google.com/
+
+    Debes activar:
+    1. Authentication > Sign-in method > Email/Password
+    2. Firestore Database
+    ============================================================
+    */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCDenfkv0bH5wVeji1NjlUDXJ6nymiGfik",
+      authDomain: "hasta-encontrarnos.firebaseapp.com",
+      projectId: "hasta-encontrarnos",
+      storageBucket: "hasta-encontrarnos.firebasestorage.app",
+      messagingSenderId: "167050108230",
+      appId: "1:167050108230:web:25e3ad1e915678d91fd947"
+    };
+
+    const firebaseApp = initializeApp(firebaseConfig);
+    const auth = getAuth(firebaseApp);
+    const db = getFirestore(firebaseApp);
+    const storage = getStorage(firebaseApp);
+
+    let currentUser = null;
+    let currentUserData = null;
+    let partnerData = null;
+    let coupleData = null;
+    let coupleId = null;
+
+    let unsubscribeMessages = null;
+    let unsubscribeEvents = null;
+    let unsubscribePet = null;
+    let unsubscribeCouple = null;
+let calendarDate = new Date();
+    let selectedCalendarDate = new Date();
+    let eventsCache = [];
+    let messagesCache = [];
+
+    let petState = {
+      name: "Lunita",
+      emoji: "🐻",
+      hunger: 80,
+      energy: 80,
+      happiness: 80,
+      level: 1,
+      updatedAt: null
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function showElement(id) {
+      $(id)?.classList.remove("hidden");
+    }
+
+    function hideElement(id) {
+      $(id)?.classList.add("hidden");
+    }
+
+    function showError(id, message) {
+      const element = $(id);
+      if (!element) return;
+
+      element.textContent = message;
+      element.style.display = "block";
+    }
+
+    function hideError(id) {
+      const element = $(id);
+      if (!element) return;
+
+      element.textContent = "";
+      element.style.display = "none";
+    }
+
+    function showSuccess(id, message) {
+      const element = $(id);
+      if (!element) return;
+
+      element.textContent = message;
+      element.style.display = "block";
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3000);
+    }
+
+    function escapeHTML(text = "") {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function getInitial(name = "U") {
+      return name.trim().charAt(0).toUpperCase() || "U";
+    }
+
+    function formatDate(timestamp) {
+      if (!timestamp) return "-";
+
+      const date = timestamp.toDate
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+      return date.toLocaleDateString("es-PE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function formatTime(timestamp) {
+      if (!timestamp) return "";
+
+      const date = timestamp.toDate
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+      return date.toLocaleTimeString("es-PE", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function generateConnectionCode() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let result = "";
+
+      for (let i = 0; i < 8; i++) {
+        result += chars[Math.floor(Math.random() * chars.length)];
+      }
+
+      return result;
+    }
+
+    function setAvatar(element, userData, fallback = "♡") {
+      if (!element) return;
+
+      if (userData?.photoURL) {
+        element.innerHTML = `<img src="${escapeHTML(userData.photoURL)}" alt="Foto de perfil">`;
+      } else {
+        element.textContent = getInitial(userData?.name || fallback);
+      }
+    }
+
+    function showOnlyScreen(screenId) {
+      ["loadingScreen", "authScreen", "connectScreen", "appScreen"].forEach(id => {
+        hideElement(id);
+      });
+
+      showElement(screenId);
+    }
+
+    function showAuthMode(mode) {
+      if (mode === "register") {
+        hideElement("loginForm");
+        showElement("registerForm");
+      } else {
+        showElement("loginForm");
+        hideElement("registerForm");
+      }
+
+      hideError("loginError");
+      hideError("registerError");
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.add("hidden");
+      });
+
+      const page = $(pageId);
+      if (page) page.classList.remove("hidden");
+
+      document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.toggle(
+          "active",
+          item.dataset.page === pageId
+        );
+      });
+
+      if (pageId === "chatPage") {
+        loadMessages();
+        if (coupleData?.chatBackgroundUrl) {
+          setChatBackground(coupleData.chatBackgroundUrl);
+        }
+      }
+
+      if (pageId === "calendarPage") {
+        renderCalendar();
+        loadEvents();
+      }
+
+      if (pageId === "petPage") {
+        loadPet();
+      }
+    }
+
+    async function createUserDocument(user, name) {
+      const connectionCode = generateConnectionCode();
+
+      const userData = {
+        uid: user.uid,
+        name,
+        email: user.email,
+        photoURL: "",
+        bio: "",
+        connectionCode,
+        partnerId: null,
+        coupleId: null,
+        createdAt: serverTimestamp()
+      };
+
+      await setDoc(doc(db, "users", user.uid), userData);
+
+      return userData;
+    }
+
+    async function getCurrentUserData(uid) {
+      const snapshot = await getDoc(doc(db, "users", uid));
+
+      if (!snapshot.exists()) {
+        return null;
+      }
+
+      return {
+        id: snapshot.id,
+        ...snapshot.data()
+      };
+    }
+
+    async function registerUser() {
+      hideError("registerError");
+
+      const name = $("registerName").value.trim();
+      const email = $("registerEmail").value.trim();
+      const password = $("registerPassword").value;
+
+      if (!name || !email || !password) {
+        showError("registerError", "Completa todos los campos.");
+        return;
+      }
+
+      if (password.length < 6) {
+        showError(
+          "registerError",
+          "La contraseña debe tener al menos 6 caracteres."
+        );
+        return;
+      }
+
+      const button = $("registerBtn");
+      button.disabled = true;
+      button.textContent = "Creando cuenta...";
+
+      try {
+        const credential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        await updateProfile(credential.user, {
+          displayName: name
+        });
+
+        await createUserDocument(credential.user, name);
+
+        showToast("Cuenta creada correctamente.");
+      } catch (error) {
+        showError("registerError", getFirebaseError(error));
+      } finally {
+        button.disabled = false;
+        button.textContent = "Crear mi cuenta";
+      }
+    }
+
+    async function loginUser() {
+      hideError("loginError");
+
+      const email = $("loginEmail").value.trim();
+      const password = $("loginPassword").value;
+
+      if (!email || !password) {
+        showError("loginError", "Ingresa tu correo y contraseña.");
+        return;
+      }
+
+      const button = $("loginBtn");
+      button.disabled = true;
+      button.textContent = "Ingresando...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        showError("loginError", getFirebaseError(error));
+      } finally {
+        button.disabled = false;
+        button.textContent = "Iniciar sesión";
+      }
+    }
+
+    function getFirebaseError(error) {
+      const errors = {
+        "auth/email-already-in-use": "Este correo ya está registrado.",
+        "auth/invalid-email": "El correo electrónico no es válido.",
+        "auth/weak-password": "La contraseña es demasiado débil.",
+        "auth/invalid-credential": "Correo o contraseña incorrectos.",
+        "auth/user-not-found": "No existe una cuenta con este correo.",
+        "auth/wrong-password": "La contraseña es incorrecta.",
+        "auth/too-many-requests": "Demasiados intentos. Intenta más tarde."
+      };
+
+      return errors[error.code] || "Ocurrió un error. Intenta nuevamente.";
+    }
+
+    async function prepareUserSession(user) {
+      currentUser = user;
+      currentUserData = await getCurrentUserData(user.uid);
+
+      if (!currentUserData) {
+        currentUserData = await createUserDocument(
+          user,
+          user.displayName || "Usuario"
+        );
+      }
+
+      if (!currentUserData.partnerId || !currentUserData.coupleId) {
+        $("myConnectionCode").value = currentUserData.connectionCode || "";
+        showOnlyScreen("connectScreen");
+        return;
+      }
+
+      coupleId = currentUserData.coupleId;
+      coupleData = await getDoc(doc(db, "couples", coupleId));
+
+      if (coupleData.exists()) {
+        coupleData = {
+          id: coupleData.id,
+          ...coupleData.data()
+        };
+      }
+
+      partnerData = await getCurrentUserData(currentUserData.partnerId);
+
+      updateUserInterface();
+      showOnlyScreen("appScreen");
+      showPage("homePage");
+
+      loadMessages();
+      loadEvents();
+      loadPet();
+      loadCoupleChatSettings();
+    }
+
+    async function connectPartner() {
+      hideError("connectError");
+      hideError("connectSuccess");
+
+      const partnerCode = $("partnerCodeInput").value.trim().toUpperCase();
+
+      if (!partnerCode) {
+        showError("connectError", "Escribe el código de tu pareja.");
+        return;
+      }
+
+      if (partnerCode === currentUserData.connectionCode) {
+        showError("connectError", "No puedes conectarte contigo mismo.");
+        return;
+      }
+
+      const button = $("connectPartnerBtn");
+      button.disabled = true;
+      button.textContent = "Conectando...";
+
+      try {
+        const usersQuery = query(
+          collection(db, "users"),
+          where("connectionCode", "==", partnerCode),
+          limit(1)
+        );
+
+        const snapshot = await getDocs(usersQuery);
+
+        if (snapshot.empty) {
+          showError("connectError", "No encontramos una cuenta con ese código.");
+          return;
+        }
+
+        const partnerDoc = snapshot.docs[0];
+        const partner = {
+          id: partnerDoc.id,
+          ...partnerDoc.data()
+        };
+
+        if (partner.partnerId) {
+          showError(
+            "connectError",
+            "Esta persona ya está conectada con otra cuenta."
+          );
+          return;
+        }
+
+        const newCoupleRef = doc(collection(db, "couples"));
+        const newCoupleId = newCoupleRef.id;
+
+        const couple = {
+          user1Id: currentUser.uid,
+          user2Id: partner.id,
+          createdAt: serverTimestamp()
+        };
+
+        await setDoc(newCoupleRef, couple);
+
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          partnerId: partner.id,
+          coupleId: newCoupleId
+        });
+
+        await updateDoc(doc(db, "users", partner.id), {
+          partnerId: currentUser.uid,
+          coupleId: newCoupleId
+        });
+
+        await setDoc(doc(db, "pets", newCoupleId), {
+          name: "Lunita",
+          emoji: "🐻",
+          hunger: 80,
+          energy: 80,
+          happiness: 80,
+          level: 1,
+          updatedAt: serverTimestamp()
+        });
+
+        showSuccess(
+          "connectSuccess",
+          "¡Se conectaron correctamente! Cargando vuestro espacio..."
+        );
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1200);
+
+      } catch (error) {
+        console.error(error);
+        showError("connectError", "No se pudo realizar la conexión.");
+      } finally {
+        button.disabled = false;
+        button.textContent = "💗 Conectar con mi pareja";
+      }
+    }
+
+    function updateUserInterface() {
+      const userName = currentUserData?.name || "Usuario";
+      const partnerName = partnerData?.name || "Tu pareja";
+
+      $("homeUserName").textContent = userName;
+      $("sidebarUserName").textContent = userName;
+
+      $("homeMyName").textContent = userName;
+      $("homePartnerName").textContent = partnerName;
+
+      $("chatContactName").textContent = partnerName;
+      $("chatHeaderName").textContent = partnerName;
+
+      $("profileNameDisplay").textContent = userName;
+      $("profileEmailDisplay").textContent = currentUserData?.email || "";
+      $("profileBioDisplay").textContent =
+        currentUserData?.bio || "Aún no has agregado una descripción.";
+
+      $("infoName").textContent = userName;
+      $("infoEmail").textContent = currentUserData?.email || "-";
+      $("infoCreated").textContent = formatDate(currentUserData?.createdAt);
+
+      setAvatar($("sidebarAvatar"), currentUserData, "A");
+      setAvatar($("homeMyAvatar"), currentUserData, "A");
+      setAvatar($("profileAvatar"), currentUserData, "A");
+
+      setAvatar($("homePartnerAvatar"), partnerData, "♡");
+      setAvatar($("chatContactAvatar"), partnerData, "♡");
+      setAvatar($("chatHeaderAvatar"), partnerData, "♡");
+
+      $("myConnectionCode").value = currentUserData?.connectionCode || "";
+    }
+
+    function getChatMain() {
+      return $("messagesContainer")?.closest(".chat-main");
+    }
+
+    function setChatBackground(imageUrl) {
+      const chatMain = getChatMain();
+      if (!chatMain) return;
+
+      chatMain.classList.remove(
+        "chat-bg-lavender",
+        "chat-bg-blue",
+        "chat-bg-cream",
+        "chat-bg-dark"
+      );
+
+      if (imageUrl) {
+        chatMain.classList.add("chat-bg-custom");
+        chatMain.style.backgroundImage =
+          `linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08)), url("${imageUrl}")`;
+      } else {
+        chatMain.classList.remove("chat-bg-custom");
+        chatMain.style.backgroundImage = "";
+      }
+    }
+
+    function loadCoupleChatSettings() {
+      if (!coupleId) return;
+
+      if (unsubscribeCouple) unsubscribeCouple();
+
+      const coupleRef = doc(db, "couples", coupleId);
+
+      unsubscribeCouple = onSnapshot(
+        coupleRef,
+        snapshot => {
+          if (!snapshot.exists()) return;
+
+          coupleData = {
+            id: snapshot.id,
+            ...snapshot.data()
+          };
+
+          const aiUrl = coupleData.chatBackgroundUrl || "";
+          if (aiUrl) {
+            setChatBackground(aiUrl);
+          }
+        },
+        error => console.error("Error al cargar configuración de pareja:", error)
+      );
+    }
+
+    async function generateAiChatBackground() {
+      hideError("aiBackgroundError");
+
+      if (!coupleId || !currentUser) {
+        showError("aiBackgroundError", "Primero conecta tu cuenta con tu pareja.");
+        return;
+      }
+
+      if (!AI_BACKGROUND_FUNCTION_URL) {
+        showError(
+          "aiBackgroundError",
+          "Falta configurar la Cloud Function de IA. La interfaz ya está lista, pero necesitas conectar el backend seguro."
+        );
+        return;
+      }
+
+      const promptInput = $("aiBackgroundPrompt");
+      const generateBtn = $("generateAiBackgroundBtn");
+      const preview = $("aiBackgroundPreview");
+      const prompt = promptInput.value.trim();
+
+      if (prompt.length < 8) {
+        showError("aiBackgroundError", "Describe el fondo con un poco más de detalle.");
+        return;
+      }
+
+      generateBtn.disabled = true;
+      generateBtn.innerHTML = `<span class="ai-loading"><span class="ai-mini-spinner"></span> Creando...</span>`;
+      preview.classList.remove("has-image");
+      preview.style.backgroundImage = "";
+      preview.textContent = "La IA está creando vuestro fondo...";
+
+      try {
+        const idToken = await currentUser.getIdToken();
+
+        const response = await fetch(AI_BACKGROUND_FUNCTION_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${idToken}`
+          },
+          body: JSON.stringify({
+            prompt,
+            coupleId
+          })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok || !data.imageUrl) {
+          throw new Error(data.error || "No se pudo generar el fondo.");
+        }
+
+        preview.classList.add("has-image");
+        preview.style.backgroundImage = `url("${data.imageUrl}")`;
+        preview.textContent = "Vista previa del nuevo fondo ❤️";
+
+        await updateDoc(doc(db, "couples", coupleId), {
+          chatBackgroundUrl: data.imageUrl,
+          chatBackgroundPrompt: prompt,
+          chatBackgroundUpdatedBy: currentUser.uid,
+          chatBackgroundUpdatedAt: serverTimestamp()
+        });
+
+        setChatBackground(data.imageUrl);
+        showToast("¡Fondo creado y compartido con tu pareja! ✨");
+
+      } catch (error) {
+        console.error("Error generando fondo IA:", error);
+        showError(
+          "aiBackgroundError",
+          error.message || "No se pudo generar el fondo."
+        );
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = "✨ Generar fondo";
+      }
+    }
+
+    function getChatMain() {
+      return $("messagesContainer")?.closest(".chat-main");
+    }
+
+    function setChatBackground(imageUrl) {
+      const chatMain = getChatMain();
+      if (!chatMain) return;
+      chatMain.classList.remove("chat-bg-lavender","chat-bg-blue","chat-bg-cream","chat-bg-dark","chat-bg-custom");
+      if (imageUrl) {
+        chatMain.classList.add("chat-bg-custom");
+        chatMain.style.backgroundImage =
+          `linear-gradient(rgba(255,255,255,.10),rgba(255,255,255,.10)),url("${imageUrl}")`;
+      } else {
+        chatMain.style.backgroundImage = "";
+      }
+    }
+
+    function compressChatBackground(file, maxSize=1600) {
+      return new Promise((resolve,reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const scale = Math.min(1,maxSize/Math.max(img.width,img.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.max(1,Math.round(img.width*scale));
+            canvas.height = Math.max(1,Math.round(img.height*scale));
+            canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("No se pudo preparar la imagen.")),
+              "image/jpeg",.82);
+          };
+          img.onerror = () => reject(new Error("La imagen no es válida."));
+          img.src = e.target.result;
+        };
+        reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadChatBackground(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const status = $("chatBackgroundUploadStatus");
+      if (!coupleId || !currentUser) {
+        showToast("Primero conecta tu cuenta con tu pareja.");
+        event.target.value = "";
+        return;
+      }
+      if (!file.type.startsWith("image/")) {
+        status.textContent = "❌ Selecciona una imagen válida.";
+        event.target.value = "";
+        return;
+      }
+      try {
+        status.textContent = "⏳ Preparando imagen...";
+        const blob = await compressChatBackground(file);
+        status.textContent = "☁️ Subiendo fondo...";
+        const fileRef = storageRef(storage,`chatBackgrounds/${coupleId}/background.jpg`);
+        await uploadBytes(fileRef,blob,{contentType:"image/jpeg",customMetadata:{coupleId,uploadedBy:currentUser.uid}});
+        const url = await getDownloadURL(fileRef);
+        await updateDoc(doc(db,"couples",coupleId),{
+          chatBackgroundUrl:url,
+          chatBackgroundUpdatedBy:currentUser.uid,
+          chatBackgroundUpdatedAt:serverTimestamp()
+        });
+        setChatBackground(url);
+        status.textContent = "✅ Fondo guardado para los dos.";
+        showToast("¡Fondo del chat actualizado! ❤️");
+      } catch(error) {
+        console.error(error);
+        status.textContent = error.code === "storage/unauthorized"
+          ? "❌ Revisa las reglas de Firebase Storage."
+          : "❌ No se pudo subir la imagen.";
+      } finally {
+        event.target.value = "";
+      }
+    }
+
+    async function removeChatBackground() {
+      if (!coupleId || !currentUser) return;
+      if (!confirm("¿Quieres quitar el fondo personalizado para ambos?")) return;
+      try {
+        const fileRef = storageRef(storage,`chatBackgrounds/${coupleId}/background.jpg`);
+        try { await deleteObject(fileRef); }
+        catch(error) { if(error.code !== "storage/object-not-found") throw error; }
+        await updateDoc(doc(db,"couples",coupleId),{
+          chatBackgroundUrl:"",
+          chatBackgroundUpdatedBy:currentUser.uid,
+          chatBackgroundUpdatedAt:serverTimestamp()
+        });
+        setChatBackground("");
+        $("chatBackgroundUploadStatus").textContent = "Fondo personalizado eliminado.";
+        showToast("Fondo eliminado.");
+      } catch(error) {
+        console.error(error);
+        $("chatBackgroundUploadStatus").textContent = "❌ No se pudo quitar el fondo.";
+      }
+    }
+
+    function loadMessages() {
+      if (!coupleId) return;
+
+      if (unsubscribeMessages) unsubscribeMessages();
+
+      const messagesQuery = query(
+        collection(db, "couples", coupleId, "messages"),
+        orderBy("createdAt", "asc")
+      );
+
+      unsubscribeMessages = onSnapshot(
+        messagesQuery,
+        (snapshot) => {
+          messagesCache = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          renderMessages();
+          $("messageCount").textContent = messagesCache.length;
+        },
+        (error) => {
+          console.error("Error al cargar mensajes:", error);
+        }
+      );
+    }
+
+    function renderMessages() {
+      const container = $("messagesContainer");
+      const showTime = $("showTimeToggle")?.checked ?? true;
+
+      container.innerHTML = "";
+
+      if (messagesCache.length === 0) {
+        container.innerHTML = `
+          <div class="date-separator">Hoy</div>
+          <div style="text-align:center; color:var(--muted); margin:auto; font-size:13px;">
+            Todavía no hay mensajes.<br>
+            ¡Escribe el primer mensaje! 💗
+          </div>
+        `;
+        return;
+      }
+
+      const dateSeparator = document.createElement("div");
+      dateSeparator.className = "date-separator";
+      dateSeparator.textContent = "Conversación";
+      container.appendChild(dateSeparator);
+
+      messagesCache.forEach(message => {
+        const isSent = message.senderId === currentUser.uid;
+        const messageElement = document.createElement("div");
+
+        messageElement.className = `message ${isSent ? "sent" : "received"}`;
+
+        const time = showTime
+          ? `<span>${formatTime(message.createdAt)}</span>`
+          : "";
+
+        const status = isSent
+          ? `<span class="message-status">${message.read ? "✓✓" : "✓"}</span>`
+          : "";
+
+        messageElement.innerHTML = `
+          <div>${escapeHTML(message.text || "")}</div>
+          <div class="message-meta">
+            ${time}
+            ${status}
+          </div>
+        `;
+
+        container.appendChild(messageElement);
+      });
+
+      container.scrollTop = container.scrollHeight;
+
+      applyChatColor();
+    }
+
+    async function sendMessage() {
+      const input = $("messageInput");
+      const text = input.value.trim();
+
+      if (!text || !coupleId) return;
+
+      input.value = "";
+
+      try {
+        await addDoc(
+          collection(db, "couples", coupleId, "messages"),
+          {
+            text,
+            senderId: currentUser.uid,
+            receiverId: currentUserData.partnerId,
+            read: false,
+            createdAt: serverTimestamp()
+          }
+        );
+      } catch (error) {
+        console.error(error);
+        showToast("No se pudo enviar el mensaje.");
+      }
+    }
+
+    async function clearChat() {
+      if (!coupleId) return;
+
+      const confirmed = confirm(
+        "¿Seguro que deseas eliminar toda la conversación?"
+      );
+
+      if (!confirmed) return;
+
+      try {
+        const messagesSnapshot = await getDocs(
+          collection(db, "couples", coupleId, "messages")
+        );
+
+        for (const message of messagesSnapshot.docs) {
+          await deleteDoc(message.ref);
+        }
+
+        showToast("Conversación eliminada.");
+      } catch (error) {
+        console.error(error);
+        showToast("No se pudo limpiar la conversación.");
+      }
+    }
+
+    function applyChatColor() {
+      const color = $("chatColorInput")?.value || "#ffd9e7";
+      document.querySelectorAll(".message.sent").forEach(message => {
+        message.style.background = color;
+      });
+      localStorage.setItem("chatMessageColor", color);
+    }
+
+    function applyChatBackground() {
+      const selected = $("chatBackgroundSelect")?.value || "default";
+      const chatMain = $("messagesContainer")?.closest(".chat-main");
+      if (!chatMain) return;
+
+      chatMain.classList.remove(
+        "chat-bg-custom",
+        "chat-bg-lavender",
+        "chat-bg-blue",
+        "chat-bg-cream",
+        "chat-bg-dark"
+      );
+      chatMain.style.backgroundImage = "";
+
+      if (selected !== "default") {
+        chatMain.classList.add(`chat-bg-${selected}`);
+      }
+
+      // Si existe un fondo IA guardado para la pareja, tiene prioridad.
+      if (coupleData?.chatBackgroundUrl) {
+        setChatBackground(coupleData.chatBackgroundUrl);
+      }
+
+      localStorage.setItem("chatBackground", selected);
+    }
+
+    function loadChatSettings() {
+      const color = localStorage.getItem("chatMessageColor");
+      const background = localStorage.getItem("chatBackground");
+      if (color && $("chatColorInput")) $("chatColorInput").value = color;
+      if (background && $("chatBackgroundSelect")) $("chatBackgroundSelect").value = background;
+      applyChatColor();
+      applyChatBackground();
+    }
+
+    function compressImage(file, maxSize = 600) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = event => {
+          const image = new Image();
+          image.onload = () => {
+            const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(image.width * scale);
+            canvas.height = Math.round(image.height * scale);
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL("image/jpeg", 0.78));
+          };
+          image.onerror = reject;
+          image.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleProfilePhotoFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) {
+        showError("profileModalError", "Selecciona una imagen válida.");
+        return;
+      }
+      try {
+        const photoData = await compressImage(file);
+        $("editProfilePhoto").value = photoData;
+        showToast("Foto seleccionada. Pulsa Guardar cambios.");
+      } catch (error) {
+        console.error(error);
+        showError("profileModalError", "No se pudo cargar la foto.");
+      }
+    }
+
+    async function loadPet() {
+      if (!coupleId) return;
+
+      if (unsubscribePet) unsubscribePet();
+
+      const petRef = doc(db, "pets", coupleId);
+
+      unsubscribePet = onSnapshot(
+        petRef,
+        async (snapshot) => {
+          if (!snapshot.exists()) {
+            await setDoc(petRef, {
+              ...petState,
+              updatedAt: serverTimestamp()
+            });
+
+            return;
+          }
+
+          petState = {
+            ...petState,
+            ...snapshot.data()
+          };
+
+          renderPet();
+        },
+        error => {
+          console.error("Error al cargar mascota:", error);
+        }
+      );
+    }
+
+    function getPetMood() {
+      const average =
+        (petState.hunger + petState.energy + petState.happiness) / 3;
+
+      if (average >= 85) return "Está súper feliz contigo";
+      if (average >= 65) return "Está contenta y espera cariño";
+      if (average >= 40) return "Necesita un poco de atención";
+      return "Se siente un poco triste";
+    }
+
+    function renderPet() {
+      $("petNameDisplay").textContent = petState.name || "Lunita";
+      $("petMoodDisplay").textContent = getPetMood();
+      $("petCharacter").textContent = petState.emoji || "🐻";
+      $("petNameInput").value = petState.name || "Lunita";
+
+      $("petHungerValue").textContent = `${petState.hunger}%`;
+      $("petEnergyValue").textContent = `${petState.energy}%`;
+      $("petHappinessValue").textContent = `${petState.happiness}%`;
+
+      $("petHungerBar").style.width = `${petState.hunger}%`;
+      $("petEnergyBar").style.width = `${petState.energy}%`;
+      $("petHappinessBar").style.width = `${petState.happiness}%`;
+
+      $("petLevelDisplay").textContent = `Nivel ${petState.level || 1}`;
+
+      const average =
+        (petState.hunger + petState.energy + petState.happiness) / 3;
+
+      $("petStatusHome").textContent =
+        average >= 70 ? "Feliz" : average >= 40 ? "Normal" : "Triste";
+
+      document.querySelectorAll(".pet-option").forEach(button => {
+        button.classList.toggle(
+          "selected",
+          button.dataset.petEmoji === petState.emoji
+        );
+      });
+    }
+
+    async function performPetAction(action) {
+      if (!coupleId) return;
+
+      let changes = {};
+      let speech = "";
+
+      if (action === "feed") {
+        changes = {
+          hunger: Math.min(100, petState.hunger + 20),
+          happiness: Math.min(100, petState.happiness + 5)
+        };
+        speech = "¡Qué rico! Gracias por alimentarme 🍎";
+      }
+
+      if (action === "play") {
+        changes = {
+          energy: Math.max(0, petState.energy - 15),
+          happiness: Math.min(100, petState.happiness + 20),
+          hunger: Math.max(0, petState.hunger - 5)
+        };
+        speech = "¡Me divertí muchísimo! 🎾";
+      }
+
+      if (action === "pet") {
+        changes = {
+          happiness: Math.min(100, petState.happiness + 15)
+        };
+        speech = "Awww... me encanta que me acaricies 🤗";
+      }
+
+      if (action === "sleep") {
+        changes = {
+          energy: Math.min(100, petState.energy + 30),
+          hunger: Math.max(0, petState.hunger - 5)
+        };
+        speech = "Zzz... gracias por dejarme descansar 🌙";
+      }
+
+      const average =
+        ((changes.hunger ?? petState.hunger) +
+          (changes.energy ?? petState.energy) +
+          (changes.happiness ?? petState.happiness)) / 3;
+
+      const newLevel = Math.max(1, Math.floor(average / 20));
+
+      changes.level = newLevel;
+      changes.updatedAt = serverTimestamp();
+
+      try {
+        await updateDoc(doc(db, "pets", coupleId), changes);
+
+        $("petSpeech").textContent = speech;
+        showToast("La mascota ha actualizado su estado.");
+      } catch (error) {
+        console.error(error);
+        showToast("No se pudo actualizar la mascota.");
+      }
+    }
+
+    async function savePet() {
+      if (!coupleId) return;
+
+      const name = $("petNameInput").value.trim() || "Lunita";
+
+      try {
+        await updateDoc(doc(db, "pets", coupleId), {
+          name,
+          updatedAt: serverTimestamp()
+        });
+
+        showToast("Mascota actualizada.");
+      } catch (error) {
+        console.error(error);
+        showToast("No se pudo guardar la mascota.");
+      }
+    }
+
+    function loadEvents() {
+      if (!coupleId) return;
+
+      if (unsubscribeEvents) unsubscribeEvents();
+
+      const eventsQuery = query(
+        collection(db, "couples", coupleId, "events"),
+        orderBy("date", "asc")
+      );
+
+      unsubscribeEvents = onSnapshot(
+        eventsQuery,
+        snapshot => {
+          eventsCache = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }));
+
+          $("eventCount").textContent = eventsCache.length;
+          renderCalendar();
+          renderEvents();
+        },
+        error => {
+          console.error("Error al cargar eventos:", error);
+        }
+      );
+    }
+
+    function isMonthlyAnniversary(event) {
+      if (!event || !event.date) return false;
+      if (event.recurrence === "monthly" || event.recurrenceType === "monthly") return true;
+      return String(event.title || "").toLowerCase().includes("aniversario");
+    }
+
+    function getRecurringOccurrence(event, year, month) {
+      if (!isMonthlyAnniversary(event)) return null;
+      const base = new Date(`${event.date}T12:00:00`);
+      if (Number.isNaN(base.getTime())) return null;
+      const candidate = new Date(year,month,base.getDate(),12);
+      if (candidate.getFullYear() !== year || candidate.getMonth() !== month || candidate.getDate() !== base.getDate()) return null;
+      const baseMonth = base.getFullYear()*12 + base.getMonth();
+      return year*12 + month >= baseMonth ? candidate : null;
+    }
+
+    function getEventsForDate(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return [];
+      return eventsCache.filter(event => {
+        if (!isMonthlyAnniversary(event)) return event.date === dateString;
+        const occurrence = getRecurringOccurrence(event,date.getFullYear(),date.getMonth());
+        return occurrence && occurrence.getDate() === date.getDate();
+      });
+    }
+
+    function getNextOccurrence(event, fromDate=new Date()) {
+      const base = new Date(`${event.date}T12:00:00`);
+      if (Number.isNaN(base.getTime())) return null;
+      if (!isMonthlyAnniversary(event)) return base >= fromDate ? base : null;
+      for(let offset=0;offset<=24;offset++){
+        const candidate=getRecurringOccurrence(event,fromDate.getFullYear(),fromDate.getMonth()+offset);
+        if(candidate && candidate>=new Date(fromDate.getFullYear(),fromDate.getMonth(),fromDate.getDate())) return candidate;
+      }
+      return null;
+    }
+
+    function checkTodayReminders() {
+      const today=getLocalDateString(new Date());
+      getEventsForDate(today).forEach(event=>{
+        if(!isMonthlyAnniversary(event)) return;
+        const key=`anniversary-${event.id}-${today}`;
+        if(sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key,"1");
+        showToast(`❤️ Hoy es su aniversario: ${event.title}`);
+      });
+    }
+
+    function renderCalendar() {
+      const year = calendarDate.getFullYear();
+      const month = calendarDate.getMonth();
+
+      const monthTitle = calendarDate.toLocaleDateString("es-PE", {
+        month: "long",
+        year: "numeric"
+      });
+
+      $("calendarMonthTitle").textContent =
+        monthTitle.charAt(0).toUpperCase() + monthTitle.slice(1);
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+
+      let startingDay = firstDay.getDay();
+      startingDay = startingDay === 0 ? 6 : startingDay - 1;
+
+      const totalDays = lastDay.getDate();
+      const previousLastDay = new Date(year, month, 0).getDate();
+
+      const container = $("calendarDays");
+      container.innerHTML = "";
+
+      for (let i = startingDay - 1; i >= 0; i--) {
+        const day = previousLastDay - i;
+        const date = new Date(year, month - 1, day);
+        container.appendChild(createCalendarDay(date, true));
+      }
+
+      for (let day = 1; day <= totalDays; day++) {
+        const date = new Date(year, month, day);
+        container.appendChild(createCalendarDay(date, false));
+      }
+
+      const totalCells = container.children.length;
+      const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+
+      for (let day = 1; day <= remaining; day++) {
+        const date = new Date(year, month + 1, day);
+        container.appendChild(createCalendarDay(date, true));
+      }
+    }
+
+    function createCalendarDay(date, otherMonth) {
+      const element = document.createElement("div");
+      element.className = "calendar-day";
+
+      if (otherMonth) {
+        element.classList.add("other-month");
+      }
+
+      const today = new Date();
+
+      if (
+        date.getDate() === today.getDate() &&
+        date.getMonth() === today.getMonth() &&
+        date.getFullYear() === today.getFullYear()
+      ) {
+        element.classList.add("today");
+      }
+
+      const dateString = getLocalDateString(date);
+
+      const events = getEventsForDate(dateString);
+
+      element.innerHTML = `
+        <div class="calendar-day-number">${date.getDate()}</div>
+        ${events
+          .slice(0, 2)
+          .map(event => `<span class="calendar-event-dot">${escapeHTML(event.title)}</span>`)
+          .join("")}
+      `;
+
+      element.addEventListener("click", () => {
+        $("eventDateInput").value = dateString;
+        showModal("eventModal");
+      });
+
+      return element;
+    }
+
+    function getLocalDateString(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function renderEvents() {
+      const container = $("eventsList");
+
+      if (eventsCache.length === 0) {
+        container.innerHTML = `
+          <p style="color: var(--muted); font-size: 13px;">
+            Todavía no tienen eventos.
+          </p>
+        `;
+        return;
+      }
+
+      const sortedEvents = [...eventsCache].sort((a, b) => {
+        return a.date.localeCompare(b.date);
+      });
+
+      container.innerHTML = sortedEvents.map(event => {
+        const date = new Date(`${event.date}T12:00:00`);
+
+        return `
+          <div class="event-item">
+            <div class="event-date">
+              ${date.toLocaleDateString("es-PE", { day: "2-digit" })}
+              <br>
+              ${date.toLocaleDateString("es-PE", { month: "short" })}
+            </div>
+
+            <div class="event-info">
+              <strong>${escapeHTML(event.title)}</strong>
+              <small>${escapeHTML(event.description || "Sin descripción")}</small>
+            </div>
+
+            <button
+              class="event-delete"
+              data-delete-event="${event.id}"
+              title="Eliminar evento"
+            >
+              ×
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      document.querySelectorAll("[data-delete-event]").forEach(button => {
+        button.addEventListener("click", () => {
+          deleteEvent(button.dataset.deleteEvent);
+        });
+      });
+    }
+
+    async function saveEvent() {
+      hideError("eventModalError");
+
+      const title = $("eventTitleInput").value.trim();
+      const date = $("eventDateInput").value;
+      const description = $("eventDescriptionInput").value.trim();
+
+      if (!title || !date) {
+        showError("eventModalError", "Completa el título y la fecha.");
+        return;
+      }
+
+      try {
+        await addDoc(
+          collection(db, "couples", coupleId, "events"),
+          {
+            title,
+            date,
+            description,
+            recurrence: title.toLowerCase().includes("aniversario") ? "monthly" : "none",
+            recurrenceType: title.toLowerCase().includes("aniversario") ? "monthly" : "none",
+            recurringDay: title.toLowerCase().includes("aniversario") ? Number(date.split("-")[2]) : null,
+            createdBy: currentUser.uid,
+            createdAt: serverTimestamp()
+          }
+        );
+
+        closeModal("eventModal");
+
+        $("eventTitleInput").value = "";
+        $("eventDateInput").value = "";
+        $("eventDescriptionInput").value = "";
+
+        showToast("Evento guardado.");
+      } catch (error) {
+        console.error(error);
+        showError("eventModalError", "No se pudo guardar el evento.");
+      }
+    }
+
+    async function deleteEvent(eventId) {
+      const confirmed = confirm("¿Eliminar este evento?");
+
+      if (!confirmed) return;
+
+      try {
+        await deleteDoc(
+          doc(db, "couples", coupleId, "events", eventId)
+        );
+
+        showToast("Evento eliminado.");
+      } catch (error) {
+        console.error(error);
+        showToast("No se pudo eliminar el evento.");
+      }
+    }
+
+    async function saveProfile() {
+      hideError("profileModalError");
+
+      const name = $("editProfileName").value.trim();
+      const bio = $("editProfileBio").value.trim();
+      const photoURL = $("editProfilePhoto").value.trim();
+
+      if (photoURL.startsWith("data:") && photoURL.length > 900000) {
+        showError("profileModalError", "La foto es demasiado grande. Elige otra imagen.");
+        return;
+      }
+
+      if (!name) {
+        showError("profileModalError", "El nombre no puede estar vacío.");
+        return;
+      }
+
+      try {
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          name,
+          bio,
+          photoURL
+        });
+
+        await updateProfile(currentUser, {
+          displayName: name
+        });
+
+        currentUserData = {
+          ...currentUserData,
+          name,
+          bio,
+          photoURL
+        };
+
+        updateUserInterface();
+        closeModal("profileModal");
+        showToast("Perfil actualizado.");
+      } catch (error) {
+        console.error(error);
+        showError("profileModalError", "No se pudo actualizar el perfil.");
+      }
+    }
+
+    function openProfileModal() {
+      $("editProfileName").value = currentUserData?.name || "";
+      $("editProfileBio").value = currentUserData?.bio || "";
+      $("editProfilePhoto").value = currentUserData?.photoURL || "";
+
+      showModal("profileModal");
+    }
+
+    function showModal(id) {
+      showElement(id);
+    }
+
+    function closeModal(id) {
+      hideElement(id);
+    }
+
+    function initializeEvents() {
+      $("showRegisterBtn").addEventListener("click", () => {
+        showAuthMode("register");
+      });
+
+      $("showLoginBtn").addEventListener("click", () => {
+        showAuthMode("login");
+      });
+
+      $("loginBtn").addEventListener("click", loginUser);
+      $("registerBtn").addEventListener("click", registerUser);
+
+      $("loginPassword").addEventListener("keydown", event => {
+        if (event.key === "Enter") loginUser();
+      });
+
+      $("registerPassword").addEventListener("keydown", event => {
+        if (event.key === "Enter") registerUser();
+      });
+
+      $("copyCodeBtn").addEventListener("click", async () => {
+        const code = $("myConnectionCode").value;
+
+        try {
+          await navigator.clipboard.writeText(code);
+          showToast("Código copiado.");
+        } catch {
+          $("myConnectionCode").select();
+          document.execCommand("copy");
+          showToast("Código copiado.");
+        }
+      });
+
+      $("connectPartnerBtn").addEventListener("click", connectPartner);
+
+      $("logoutFromConnectBtn").addEventListener("click", () => {
+        signOut(auth);
+      });
+
+      $("logoutBtn").addEventListener("click", () => {
+        signOut(auth);
+      });
+
+      document.querySelectorAll("[data-page]").forEach(button => {
+        button.addEventListener("click", () => {
+          showPage(button.dataset.page);
+        });
+      });
+
+      $("chatSettingsBtn").addEventListener("click", () => {
+        $("chatSettingsPanel").classList.toggle("hidden");
+      });
+
+      $("chatColorInput").addEventListener("input", applyChatColor);
+      $("chatBackgroundSelect").addEventListener("change", applyChatBackground);
+      $("chatBackgroundFile")?.addEventListener("change", uploadChatBackground);
+      $("removeChatBackgroundBtn")?.addEventListener("click", removeChatBackground);
+
+      loadChatSettings();
+
+      $("profilePhotoFile").addEventListener("change", handleProfilePhotoFile);
+      $("removeProfilePhotoBtn").addEventListener("click", () => {
+        $("editProfilePhoto").value = "";
+        $("profilePhotoFile").value = "";
+        showToast("Foto eliminada. Pulsa Guardar cambios para confirmar.");
+      });
+
+      $("showTimeToggle").addEventListener("change", renderMessages);
+
+      $("sendMessageBtn").addEventListener("click", sendMessage);
+
+      $("messageInput").addEventListener("keydown", event => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+        }
+      });
+
+      $("emojiBtn").addEventListener("click", () => {
+        $("messageInput").value += " 😊";
+        $("messageInput").focus();
+      });
+
+      $("clearChatBtn").addEventListener("click", clearChat);
+
+      document.querySelectorAll("[data-pet-action]").forEach(button => {
+        button.addEventListener("click", () => {
+          performPetAction(button.dataset.petAction);
+        });
+      });
+
+      document.querySelectorAll("[data-pet-emoji]").forEach(button => {
+        button.addEventListener("click", () => {
+          petState.emoji = button.dataset.petEmoji;
+
+          document.querySelectorAll("[data-pet-emoji]").forEach(item => {
+            item.classList.remove("selected");
+          });
+
+          button.classList.add("selected");
+          $("petCharacter").textContent = petState.emoji;
+        });
+      });
+
+      $("savePetBtn").addEventListener("click", savePet);
+
+      $("petSettingsBtn").addEventListener("click", () => {
+        showModal("petSettingsModal");
+      });
+
+      $("profileSettingsBtn").addEventListener("click", openProfileModal);
+
+      $("newEventBtn").addEventListener("click", () => {
+        $("eventDateInput").value = getLocalDateString(new Date());
+        showModal("eventModal");
+      });
+
+      $("saveEventBtn").addEventListener("click", saveEvent);
+
+      $("prevMonthBtn").addEventListener("click", () => {
+        calendarDate.setMonth(calendarDate.getMonth() - 1);
+        renderCalendar();
+      });
+
+      $("nextMonthBtn").addEventListener("click", () => {
+        calendarDate.setMonth(calendarDate.getMonth() + 1);
+        renderCalendar();
+      });
+
+      $("todayBtn").addEventListener("click", () => {
+        calendarDate = new Date();
+        renderCalendar();
+      });
+
+      $("saveProfileBtn").addEventListener("click", saveProfile);
+
+      document.querySelectorAll("[data-close-modal]").forEach(button => {
+        button.addEventListener("click", () => {
+          closeModal(button.dataset.closeModal);
+        });
+      });
+
+      document.querySelectorAll(".modal-overlay").forEach(overlay => {
+        overlay.addEventListener("click", event => {
+          if (event.target === overlay) {
+            closeModal(overlay.id);
+          }
+        });
+      });
+    }
+
+    initializeEvents();
+
+    onAuthStateChanged(auth, async user => {
+      try {
+        if (user) {
+          await prepareUserSession(user);
+        } else {
+          currentUser = null;
+          currentUserData = null;
+          partnerData = null;
+          coupleData = null;
+          coupleId = null;
+
+          if (unsubscribeMessages) unsubscribeMessages();
+          if (unsubscribeEvents) unsubscribeEvents();
+          if (unsubscribePet) unsubscribePet();
+
+          showOnlyScreen("authScreen");
+          showAuthMode("login");
+        }
+      } catch (error) {
+        console.error("Error al iniciar sesión:", error);
+        showOnlyScreen("authScreen");
+        showError(
+          "loginError",
+          "No se pudo cargar tu cuenta. Intenta nuevamente."
+        );
+      } finally {
+        hideElement("loadingScreen");
+      }
+    });
+  </script>
+</body>
+</html>
