@@ -1629,19 +1629,19 @@
       justify-content:space-between;
       gap:14px;
       width:100%;
-      margin-top:18px;
+      margin:18px 0 4px;
       padding:15px;
       box-sizing:border-box;
-      border:1px solid rgba(184,76,106,.18);
+      border:1px solid rgba(184,76,106,.20);
       border-radius:18px;
-      background:rgba(255,244,247,.92);
+      background:linear-gradient(135deg,rgba(255,245,248,.98),rgba(255,250,252,.98));
     }
-    .profile-danger-copy{min-width:0}
+    .profile-danger-copy{min-width:0;flex:1}
     .profile-danger-copy strong{
       display:block;
       color:#8e3450;
       font-size:14px;
-      margin-bottom:4px;
+      margin-bottom:5px;
     }
     .profile-danger-copy span{
       display:block;
@@ -1651,45 +1651,27 @@
     }
     .profile-danger-btn{
       flex:0 0 auto;
+      min-height:44px;
+      padding:10px 16px;
       border:0;
       border-radius:12px;
-      padding:10px 14px;
       background:#b84c6a;
       color:#fff;
       font-weight:700;
       cursor:pointer;
-      min-height:42px;
     }
     .profile-danger-btn:active{transform:scale(.98)}
-    @media(max-width:600px){
-      .modal{
-        width:calc(100vw - 24px);
-        max-width:520px;
-        max-height:calc(100dvh - 24px);
-        overflow-y:auto;
-        box-sizing:border-box;
-      }
-      .modal-overlay{
-        padding:12px;
-        align-items:flex-end;
-      }
-
+    @media (max-width:600px){
       .profile-danger-zone{
         flex-direction:column;
         align-items:stretch;
-        gap:12px;
       }
       .profile-danger-btn{
         width:100%;
         min-height:46px;
       }
     }
-    @media(max-width:380px){
-      .profile-danger-zone{padding:13px;border-radius:15px}
-      .profile-danger-copy strong{font-size:13px}
-      .profile-danger-copy span{font-size:11px}
-    }
-
+    
 </style>
 
 <style>
@@ -1939,7 +1921,593 @@
               <small>En pareja 💗</small>
             </div>
           </div>
-<div id="toast" class="toast"></div>
+<button id="logoutBtn" class="btn btn-outline btn-full">
+            Cerrar sesión
+          </button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+
+        <!-- INICIO -->
+        <div id="homePage" class="page">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Hola, <span id="homeUserName">amor</span> 💗</h1>
+              <p>Este es vuestro pequeño universo.</p>
+            </div>
+
+            <div class="topbar-actions">
+              <button class="icon-btn" data-page="profilePage">⚙️</button>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-bottom: 22px;">
+            <div class="card welcome-card">
+              <div class="welcome-content">
+                <small>VUESTRO ESPACIO ESPECIAL</small>
+                <h2>Un lugar para dos corazones.</h2>
+                <p>
+                  Guarda conversaciones, fechas importantes,
+                  recuerdos y momentos que quieran compartir.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-3" style="margin-bottom: 22px;">
+            <div class="card stat-card">
+              <div class="stat-icon">💬</div>
+              <div>
+                <small>Mensajes compartidos</small>
+                <strong id="messageCount">0</strong>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon">🗓️</div>
+              <div>
+                <small>Próximos eventos</small>
+                <strong id="eventCount">0</strong>
+              </div>
+            </div>
+
+            <div class="card stat-card">
+              <div class="stat-icon">🐻</div>
+              <div>
+                <small>Estado de la mascota</small>
+                <strong id="petStatusHome">Feliz</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-title">
+                <h3>Vuestra conexión</h3>
+                <span>Juntos</span>
+              </div>
+
+              <div class="couple-preview">
+                <div class="couple-person">
+                  <div id="homeMyAvatar" class="avatar">A</div>
+                  <strong id="homeMyName">Tú</strong>
+                </div>
+
+                <div class="couple-heart">♥</div>
+
+                <div class="couple-person">
+                  <div id="homePartnerAvatar" class="avatar">♡</div>
+                  <strong id="homePartnerName">Tu pareja</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card quote-card">
+              <div class="quote-mark">“</div>
+              <p id="dailyQuote">
+                El amor se construye en los pequeños detalles.
+              </p>
+              <small>Un pensamiento para ustedes</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- CHAT -->
+        <div id="chatPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Chat 💬</h1>
+              <p>Conversen, compartan y manténganse cerca.</p>
+            </div>
+          </div>
+
+          <div class="chat-layout">
+            <aside class="chat-list">
+              <div class="chat-list-header">
+                <h3>Conversaciones</h3>
+                <input class="search-box" placeholder="Buscar..." />
+              </div>
+
+              <div class="chat-contact">
+                <div id="chatContactAvatar" class="avatar">♡</div>
+                <div class="chat-contact-info">
+                  <strong id="chatContactName">Tu pareja</strong>
+                  <small>● En línea</small>
+                </div>
+              </div>
+            </aside>
+
+            <section class="chat-main">
+              <header class="chat-header">
+                <div class="chat-header-user">
+                  <div id="chatHeaderAvatar" class="avatar">♡</div>
+                  <div>
+                    <strong id="chatHeaderName">Tu pareja</strong>
+                    <small id="chatOnlineStatus">En línea</small>
+                  </div>
+                </div>
+
+                <div class="chat-header-actions">
+                  <button id="chatSettingsBtn" class="icon-btn" title="Configuración">
+                    ⚙️
+                  </button>
+                </div>
+              </header>
+
+              <div id="chatSettingsPanel" class="settings-panel hidden">
+                <h4>Configuración del chat</h4>
+
+                <div class="setting-row">
+                  <span>Color de mis mensajes</span>
+                  <input id="chatColorInput" type="color" value="#ffd9e7" />
+                </div>
+
+                <div class="setting-row">
+                  <span>Fondo del chat</span>
+                  <select id="chatBackgroundSelect" class="form-control" style="width: 160px; padding: 8px 10px;">
+                    <option value="default">Rosa suave</option>
+                    <option value="lavender">Lavanda</option>
+                    <option value="blue">Azul cielo</option>
+                    <option value="cream">Crema</option>
+                    <option value="dark">Noche</option>
+                  </select>
+                </div>
+
+                <div class="setting-row" style="display:block;">
+                  <div style="margin-bottom:10px;">
+                    <span>Fondo personalizado</span>
+                    <small style="display:block; color:var(--muted); font-weight:400; margin-top:4px;">
+                      Elige una imagen de tu galería y úsala como fondo de vuestro chat.
+                    </small>
+                  </div>
+
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <label for="chatBackgroundFile" class="btn btn-secondary" style="margin:0; cursor:pointer;">
+                      🖼️ Elegir de mi galería
+                    </label>
+                    <input
+                      id="chatBackgroundFile"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      hidden
+                    />
+                    <button id="removeChatBackgroundBtn" class="btn btn-outline" type="button">
+                      🗑️ Quitar fondo
+                    </button>
+                  </div>
+
+                  <div id="chatBackgroundUploadStatus"
+                       style="font-size:12px;color:var(--muted);margin-top:9px;"></div>
+                </div>
+
+                <div class="setting-row">
+                  <span>Mostrar hora de mensajes</span>
+                  <input id="showTimeToggle" type="checkbox" checked />
+                </div>
+
+                <div class="setting-row">
+                  <span>Sonido de notificaciones</span>
+                  <input id="soundToggle" type="checkbox" checked />
+                </div>
+
+                <div style="margin-top: 15px;">
+                  <button id="clearChatBtn" class="btn btn-danger">
+                    Limpiar conversación
+                  </button>
+                </div>
+              </div>
+
+              <div id="messagesContainer" class="messages">
+                <div class="date-separator">Hoy</div>
+              </div>
+
+              <div id="typingIndicator" class="typing-indicator hidden">
+                Tu pareja está escribiendo...
+              </div>
+
+              <div class="chat-input-area">
+                <button id="emojiBtn" class="emoji-button">😊</button>
+
+                <div class="chat-input-wrapper">
+                  <textarea
+                    id="messageInput"
+                    class="chat-input"
+                    rows="1"
+                    placeholder="Escribe un mensaje..."
+                  ></textarea>
+                </div>
+
+                <button id="sendMessageBtn" class="send-button">➤</button>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <!-- MASCOTA -->
+        <div id="petPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Vuestra mascota 🐻</h1>
+              <p>Cuídenla juntos y hagan crecer vuestro vínculo.</p>
+            </div>
+
+            <button id="petSettingsBtn" class="icon-btn">⚙️</button>
+          </div>
+
+          <div class="pet-layout">
+            <div class="card pet-stage">
+              <div id="petNameDisplay" class="pet-name">Lunita</div>
+              <div id="petMoodDisplay" class="pet-mood">Está esperando cariño</div>
+
+              <div id="petCharacter" class="pet-character">🐻</div>
+              <div class="pet-shadow"></div>
+
+              <div id="petSpeech" class="pet-speech">
+                ¡Hola! ¿Jugamos un ratito?
+              </div>
+            </div>
+
+            <div>
+              <div class="card">
+                <div class="card-title">
+                  <h3>Estado de la mascota</h3>
+                  <span id="petLevelDisplay">Nivel 1</span>
+                </div>
+
+                <div class="pet-stats">
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>🍎 Alimentación</span>
+                      <span id="petHungerValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petHungerBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>⚡ Energía</span>
+                      <span id="petEnergyValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petEnergyBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="pet-stat">
+                    <div class="pet-stat-top">
+                      <span>💗 Felicidad</span>
+                      <span id="petHappinessValue">80%</span>
+                    </div>
+                    <div class="progress">
+                      <div id="petHappinessBar" class="progress-bar" style="width: 80%;"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pet-actions">
+                  <button class="pet-action" data-pet-action="feed">
+                    <span>🍎</span>
+                    Alimentar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="play">
+                    <span>🎾</span>
+                    Jugar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="pet">
+                    <span>🤗</span>
+                    Acariciar
+                  </button>
+
+                  <button class="pet-action" data-pet-action="sleep">
+                    <span>🌙</span>
+                    Dormir
+                  </button>
+                </div>
+              </div>
+
+              <div class="card pet-customize">
+                <h4>Personalizar mascota</h4>
+
+                <div class="form-group">
+                  <label>Nombre</label>
+                  <input id="petNameInput" class="form-control" placeholder="Nombre de la mascota" />
+                </div>
+
+                <div class="form-group">
+                  <label>Elegir mascota</label>
+                  <div class="pet-options">
+                    <button class="pet-option selected" data-pet-emoji="🐻">🐻</button>
+                    <button class="pet-option" data-pet-emoji="🐰">🐰</button>
+                    <button class="pet-option" data-pet-emoji="🐱">🐱</button>
+                    <button class="pet-option" data-pet-emoji="🐶">🐶</button>
+                    <button class="pet-option" data-pet-emoji="🦊">🦊</button>
+                    <button class="pet-option" data-pet-emoji="🐼">🐼</button>
+                  </div>
+                </div>
+
+                <button id="savePetBtn" class="btn btn-primary btn-full">
+                  Guardar cambios
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALENDARIO -->
+        <div id="calendarPage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Calendario 🗓️</h1>
+              <p>Guarden sus fechas y momentos importantes.</p>
+            </div>
+
+            <button id="newEventBtn" class="btn btn-primary">
+              + Nuevo evento
+            </button>
+          </div>
+
+          <div class="calendar-layout">
+            <div class="card">
+              <div class="calendar-header">
+                <h2 id="calendarMonthTitle">Mes</h2>
+
+                <div class="calendar-controls">
+                  <button id="prevMonthBtn" class="icon-btn">‹</button>
+                  <button id="todayBtn" class="btn btn-outline">Hoy</button>
+                  <button id="nextMonthBtn" class="icon-btn">›</button>
+                </div>
+              </div>
+
+              <div class="calendar-weekdays">
+                <span>Lun</span>
+                <span>Mar</span>
+                <span>Mié</span>
+                <span>Jue</span>
+                <span>Vie</span>
+                <span>Sáb</span>
+                <span>Dom</span>
+              </div>
+
+              <div id="calendarDays" class="calendar-days"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Próximos eventos</h3>
+                <span id="eventsSubtitle">Compartidos</span>
+              </div>
+
+              <div id="selectedDayPanel" class="selected-day-panel hidden">
+              <div class="selected-day-head">
+                <div>
+                  <div class="selected-day-label">Día seleccionado</div>
+                  <h3 id="selectedDayTitle">Selecciona un día</h3>
+                </div>
+                <button id="addEventForSelectedDayBtn" class="btn btn-primary" type="button">
+                  ＋ Agregar evento
+                </button>
+              </div>
+              <div id="selectedDayEvents" class="selected-day-events"></div>
+            </div>
+
+            <div id="eventsList" class="event-list">
+                <p style="color: var(--muted); font-size: 13px;">
+                  Todavía no tienen eventos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PERFIL -->
+        <div id="profilePage" class="page hidden">
+          <div class="topbar">
+            <div class="page-title">
+              <h1>Mi perfil ♡</h1>
+              <p>Personaliza tu información dentro de la aplicación.</p>
+            </div>
+
+            <button id="profileSettingsBtn" class="icon-btn">⚙️</button>
+          </div>
+
+          <div class="profile-layout">
+            <div class="card profile-card">
+              <div id="profileAvatar" class="profile-avatar">A</div>
+              <h2 id="profileNameDisplay">Usuario</h2>
+              <p id="profileEmailDisplay">correo@ejemplo.com</p>
+
+              <div id="profileBioDisplay" class="profile-bio">
+                Aún no has agregado una descripción.
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Información personal</h3>
+                <span>Privado</span>
+              </div>
+
+              <div class="profile-info">
+                <div class="info-row">
+                  <span>Nombre</span>
+                  <strong id="infoName">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Correo electrónico</span>
+                  <strong id="infoEmail">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Fecha de registro</span>
+                  <strong id="infoCreated">-</strong>
+                </div>
+
+                <div class="info-row">
+                  <span>Estado de conexión</span>
+                  <strong style="color: var(--success);">Conectado 💗</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+  <!-- MODAL PERFIL -->
+  <div id="profileModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Editar mi perfil</h3>
+        <button class="modal-close" data-close-modal="profileModal">×</button>
+      </div>
+
+      <div id="profileModalError" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="editProfileName">Nombre</label>
+        <input id="editProfileName" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="editProfileBio">Descripción</label>
+        <textarea
+          id="editProfileBio"
+          class="form-control"
+          placeholder="Escribe algo sobre ti..."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="editProfilePhoto">Foto de perfil</label>
+        <input
+          id="editProfilePhoto"
+          class="form-control"
+          placeholder="URL opcional de la foto"
+        />
+        <div style="margin-top: 10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <label for="profilePhotoFile" class="btn btn-secondary" style="margin:0;">📷 Elegir de mi galería</label>
+          <input id="profilePhotoFile" type="file" accept="image/*" hidden />
+          <button id="removeProfilePhotoBtn" type="button" class="btn btn-outline">🗑️ Quitar foto</button>
+        </div>
+        <small style="display:block; margin-top:8px; color:var(--muted);">Puedes elegir una foto desde tu celular o computadora.</small>
+      </div>
+
+      
+      <div class="profile-danger-zone">
+        <div class="profile-danger-copy">
+          <strong>💔 Desvincular pareja</strong>
+          <span>Dejar de compartir tu relación, chat, calendario y mascota.</span>
+        </div>
+        <button id="unlinkPartnerBtn" class="profile-danger-btn" type="button">
+          Desvincular
+        </button>
+      </div>
+
+<div class="modal-actions">
+        <button class="btn btn-outline" data-close-modal="profileModal">
+          Cancelar
+        </button>
+        <button id="saveProfileBtn" class="btn btn-primary">
+          Guardar cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EVENTO -->
+  <div id="eventModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Nuevo evento</h3>
+        <button class="modal-close" data-close-modal="eventModal">×</button>
+      </div>
+
+      <div id="eventModalError" class="error-message"></div>
+
+      <div class="form-group">
+        <label for="eventTitleInput">Título del evento</label>
+        <input
+          id="eventTitleInput"
+          class="form-control"
+          placeholder="Ej. Aniversario"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="eventDateInput">Fecha</label>
+        <input id="eventDateInput" class="form-control" type="date" />
+      </div>
+
+      <div class="form-group">
+        <label for="eventDescriptionInput">Descripción</label>
+        <textarea
+          id="eventDescriptionInput"
+          class="form-control"
+          placeholder="Detalles del evento..."
+        ></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" data-close-modal="eventModal">
+          Cancelar
+        </button>
+        <button id="saveEventBtn" class="btn btn-primary">
+          Guardar evento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL MASCOTA -->
+  <div id="petSettingsModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Configuración de mascota</h3>
+        <button class="modal-close" data-close-modal="petSettingsModal">×</button>
+      </div>
+
+      <p style="color: var(--muted); line-height: 1.6; font-size: 14px;">
+        La mascota comparte su estado con tu pareja. Cada acción que realicen
+        modificará sus niveles de energía, alimentación y felicidad.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn btn-primary" data-close-modal="petSettingsModal">
+          Entendido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
 
   <!-- FIREBASE -->
   
