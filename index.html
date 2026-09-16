@@ -970,6 +970,32 @@
     .selected-event-card small{color:var(--muted);line-height:1.45}
     .selected-day-empty{color:var(--muted);font-size:13px;padding:8px 0 2px}
     @media(max-width:560px){.selected-day-head{flex-direction:column;align-items:stretch}.selected-day-head .btn{width:100%}}
+
+    .danger-zone {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-top:18px;
+      padding:15px;
+      border:1px solid rgba(190,60,90,.18);
+      border-radius:18px;
+      background:rgba(255,244,247,.85);
+    }
+    .danger-zone strong { display:block; color:#8e3450; margin-bottom:4px; }
+    .danger-zone small { display:block; color:var(--muted); font-size:12px; line-height:1.4; }
+    .btn-danger {
+      border:0;
+      background:#b84c6a;
+      color:white;
+      min-width:110px;
+    }
+    .btn-danger:hover { filter:brightness(.96); }
+    @media(max-width:560px) {
+      .danger-zone { flex-direction:column; align-items:stretch; }
+      .danger-zone .btn { width:100%; }
+    }
+
     .pet-layout {
       display: grid;
       grid-template-columns: 1.2fr .8fr;
@@ -1846,7 +1872,18 @@
             </div>
           </div>
 
-          <button id="logoutBtn" class="btn btn-outline btn-full">
+          
+            <div class="danger-zone">
+              <div>
+                <strong>💔 Desvincular pareja</strong>
+                <small>Dejarán de compartir calendario, chat y la mascota.</small>
+              </div>
+              <button id="unlinkPartnerBtn" class="btn btn-danger" type="button">
+                Desvincular
+              </button>
+            </div>
+            
+<button id="logoutBtn" class="btn btn-outline btn-full">
             Cerrar sesión
           </button>
         </div>
@@ -3050,6 +3087,122 @@
       }
 
       return { online: false, text: "Desconectado" };
+    }
+
+
+    async function unlinkPartner() {
+      if (!currentUser) return;
+
+      if (!coupleId) {
+        showToast("Actualmente no tienes una pareja vinculada.");
+        return;
+      }
+
+      const confirmed = confirm(
+        "¿Seguro que quieres desvincularte de tu pareja?\n\n" +
+        "Dejarán de compartir el chat, calendario y mascota. " +
+        "Esta acción afecta la vinculación de ambos."
+      );
+
+      if (!confirmed) return;
+
+      const secondConfirm = confirm(
+        "Esta es una acción importante. ¿Confirmas que quieres terminar la vinculación?"
+      );
+
+      if (!secondConfirm) return;
+
+      try {
+        const currentUid = currentUser.uid;
+        const partnerUid = currentUserData?.partnerId || null;
+        const currentCoupleId = coupleId;
+
+        // Mark the couple as inactive instead of immediately deleting it.
+        // This preserves the shared history and allows a safer future recovery.
+        await updateDoc(doc(db, "couples", currentCoupleId), {
+          active: false,
+          unlinkedAt: serverTimestamp(),
+          unlinkedBy: currentUid
+        });
+
+        // Remove the relationship from the current user.
+        await updateDoc(doc(db, "users", currentUid), {
+          partnerId: null,
+          coupleId: null,
+          isOnline: false,
+          lastSeen: serverTimestamp()
+        });
+
+        // Remove it from the partner too when their account is available.
+        if (partnerUid) {
+          try {
+            await updateDoc(doc(db, "users", partnerUid), {
+              partnerId: null,
+              coupleId: null
+            });
+          } catch (partnerError) {
+            console.warn("No se pudo actualizar inmediatamente al otro usuario:", partnerError);
+          }
+        }
+
+        if (presenceInterval) {
+          clearInterval(presenceInterval);
+          presenceInterval = null;
+        }
+
+        coupleId = null;
+        partnerData = null;
+        currentUserData = {
+          ...currentUserData,
+          partnerId: null,
+          coupleId: null
+        };
+
+        showToast("La pareja ha sido desvinculada.");
+
+        // Return to the connection screen without logging the account out.
+        setTimeout(() => {
+          location.reload();
+        }, 900);
+
+      } catch (error) {
+        console.error("Error al desvincular pareja:", error);
+        showToast(
+          error.code === "permission-denied"
+            ? "Firebase rechazó la desvinculación. Revisa las reglas de Firestore."
+            : "No se pudo desvincular la pareja. Inténtalo nuevamente."
+        );
+      }
+    }
+
+
+    function showConnectionScreen() {
+      const possibleIds = [
+        "connectScreen",
+        "connectionScreen",
+        "partnerScreen",
+        "connectPartnerScreen"
+      ];
+
+      for (const id of possibleIds) {
+        const element = $(id);
+        if (element) {
+          document.querySelectorAll(".screen, .page").forEach(screen => {
+            screen.classList.remove("active");
+            screen.classList.add("hidden");
+          });
+          element.classList.remove("hidden");
+          element.classList.add("active");
+          return;
+        }
+      }
+
+      // If the project uses navigation buttons, try the connection nav item.
+      const navButton = document.querySelector(
+        '[data-screen="connect"], [data-page="connect"], [data-target="connect"]'
+      );
+
+      if (navButton) navButton.click();
     }
 
     function updateUserInterface() {
@@ -4330,7 +4483,9 @@
     }
 
     try {
-      initializeEvents();
+      $("unlinkPartnerBtn")?.addEventListener("click", unlinkPartner);
+
+    initializeEvents();
     } catch (error) {
       console.error("Error preparando la interfaz:", error);
       const errorBox = document.getElementById("startupError");
