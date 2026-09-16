@@ -936,61 +936,6 @@
     }
 
 
-    /* =========================
-       FONDO DEL CHAT CON IA
-       ========================= */
-    .ai-background-row {
-      display: block;
-      padding: 15px 0;
-    }
-
-    .ai-background-row > div:first-child {
-      margin-bottom: 10px;
-    }
-
-    .ai-background-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .ai-background-preview {
-      width: 100%;
-      height: 150px;
-      margin-top: 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: linear-gradient(135deg, #fff0f5, #f5f0ff);
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 13px;
-      overflow: hidden;
-    }
-
-    .ai-background-preview.has-image {
-      color: white;
-      text-shadow: 0 2px 8px rgba(0,0,0,.35);
-    }
-
-    .ai-loading {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .ai-mini-spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--secondary);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
-
     .chat-main.chat-bg-custom {
       background-size: cover;
       background-position: center;
@@ -1004,39 +949,7 @@
     }
 
     .chat-main.chat-bg-custom .message.received {
-      background: rgba(255,255,255,.92);
-    }
-
-    .chat-main.chat-bg-custom .message.sent {
-      box-shadow: 0 4px 18px rgba(80,30,60,.08);
-    }
-
-    .ai-prompt-examples {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 9px;
-    }
-
-    .ai-example {
-      padding: 7px 9px;
-      border-radius: 10px;
-      background: #fff0f5;
-      color: var(--primary-dark);
-      font-size: 11px;
-      cursor: pointer;
-      border: 1px solid var(--border);
-    }
-
-    .ai-example:hover {
-      background: var(--secondary);
-    }
-
-    .chat-main.chat-bg-custom {
-      background-size:cover;
-      background-position:center;
-      background-repeat:no-repeat;
-      background-attachment:local;
+      background: rgba(255,255,255,.94);
     }
 
     .selected-day-panel {
@@ -1047,27 +960,16 @@
       background:rgba(255,255,255,.82);
       box-shadow:0 10px 28px rgba(70,45,90,.06);
     }
-    .selected-day-panel.hidden { display:none; }
-    .selected-day-head {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:12px;
-    }
-    .selected-day-label {
-      font-size:11px;text-transform:uppercase;letter-spacing:.08em;
-      color:var(--muted);font-weight:700;
-    }
-    .selected-day-head h3 { margin:4px 0 0;font-size:20px; }
-    .selected-day-events { display:grid;gap:9px; }
-    .selected-event-card {
-      padding:12px 14px;border-radius:14px;background:rgba(248,245,252,.92);
-    }
-    .selected-event-card strong { display:block;margin-bottom:3px; }
-    .selected-event-card small { color:var(--muted);line-height:1.45; }
-    .selected-day-empty { color:var(--muted);font-size:13px;padding:8px 0 2px; }
-
+    .selected-day-panel.hidden{display:none}
+    .selected-day-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+    .selected-day-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+    .selected-day-head h3{margin:4px 0 0;font-size:20px}
+    .selected-day-events{display:grid;gap:9px}
+    .selected-event-card{padding:12px 14px;border-radius:14px;background:rgba(248,245,252,.92)}
+    .selected-event-card strong{display:block;margin-bottom:3px}
+    .selected-event-card small{color:var(--muted);line-height:1.45}
+    .selected-day-empty{color:var(--muted);font-size:13px;padding:8px 0 2px}
+    @media(max-width:560px){.selected-day-head{flex-direction:column;align-items:stretch}.selected-day-head .btn{width:100%}}
     .pet-layout {
       display: grid;
       grid-template-columns: 1.2fr .8fr;
@@ -1309,6 +1211,10 @@
     .calendar-day-number {
       font-size: 12px;
       font-weight: 700;
+    }
+
+    .calendar-event-dot.recurring {
+      background: rgba(255, 107, 154, .18);
     }
 
     .calendar-event-dot {
@@ -1691,9 +1597,49 @@
       }
     }
   </style>
+
+<style>
+  #startupError {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    padding:24px;
+    overflow:auto;
+    background:#fff8fb;
+    color:#34232b;
+    font-family:system-ui,sans-serif;
+  }
+  #startupError .startup-error-box {
+    max-width:720px;
+    margin:40px auto;
+    padding:24px;
+    border-radius:22px;
+    background:#fff;
+    border:1px solid #f2dce5;
+    box-shadow:0 15px 45px rgba(176,67,112,.12);
+  }
+  #startupError pre {
+    white-space:pre-wrap;
+    word-break:break-word;
+    padding:14px;
+    border-radius:12px;
+    background:#fff3f7;
+    font-size:12px;
+  }
+</style>
 </head>
 
 <body>
+<div id="startupError">
+  <div class="startup-error-box">
+    <h2>⚠️ No se pudo iniciar Hasta Encontrarnos</h2>
+    <p>La aplicación detectó un problema al cargar Firebase.</p>
+    <pre id="startupErrorText">Error desconocido.</pre>
+    <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+  </div>
+</div>
+
 
   <div id="loadingScreen" class="loading-screen">
     <div class="spinner"></div>
@@ -2052,23 +1998,32 @@
                     <option value="dark">Noche</option>
                   </select>
                 </div>
-<div class="setting-row" style="display:block;">
+
+                <div class="setting-row" style="display:block;">
                   <div style="margin-bottom:10px;">
                     <span>Fondo personalizado</span>
-                    <small style="display:block;color:var(--muted);font-weight:400;margin-top:4px;">
-                      Elige una imagen de tu galería para vuestro chat.
+                    <small style="display:block; color:var(--muted); font-weight:400; margin-top:4px;">
+                      Elige una imagen de tu galería y úsala como fondo de vuestro chat.
                     </small>
                   </div>
-                  <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <label for="chatBackgroundFile" class="btn btn-secondary" style="margin:0;cursor:pointer;">
+
+                  <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <label for="chatBackgroundFile" class="btn btn-secondary" style="margin:0; cursor:pointer;">
                       🖼️ Elegir de mi galería
                     </label>
-                    <input id="chatBackgroundFile" type="file" accept="image/*" hidden>
+                    <input
+                      id="chatBackgroundFile"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      hidden
+                    />
                     <button id="removeChatBackgroundBtn" class="btn btn-outline" type="button">
                       🗑️ Quitar fondo
                     </button>
                   </div>
-                  <div id="chatBackgroundUploadStatus" style="font-size:12px;color:var(--muted);margin-top:9px;"></div>
+
+                  <div id="chatBackgroundUploadStatus"
+                       style="font-size:12px;color:var(--muted);margin-top:9px;"></div>
                 </div>
 
                 <div class="setting-row">
@@ -2273,17 +2228,19 @@
               </div>
 
               <div id="selectedDayPanel" class="selected-day-panel hidden">
-            <div class="selected-day-head">
-              <div>
-                <div class="selected-day-label">Día seleccionado</div>
-                <h3 id="selectedDayTitle">Selecciona un día</h3>
+              <div class="selected-day-head">
+                <div>
+                  <div class="selected-day-label">Día seleccionado</div>
+                  <h3 id="selectedDayTitle">Selecciona un día</h3>
+                </div>
+                <button id="addEventForSelectedDayBtn" class="btn btn-primary" type="button">
+                  ＋ Agregar evento
+                </button>
               </div>
-              <button id="addEventForSelectedDayBtn" class="btn btn-primary" type="button">＋ Agregar evento</button>
+              <div id="selectedDayEvents" class="selected-day-events"></div>
             </div>
-            <div id="selectedDayEvents" class="selected-day-events"></div>
-          </div>
 
-          <div id="eventsList" class="event-list">
+            <div id="eventsList" class="event-list">
                 <p style="color: var(--muted); font-size: 13px;">
                   Todavía no tienen eventos.
                 </p>
@@ -2464,11 +2421,32 @@
     </div>
   </div>
 
-
   <div id="toast" class="toast"></div>
 
   <!-- FIREBASE -->
-  <script type="module">
+  
+<script>
+(function(){
+  function showStartupError(error){
+    const box=document.getElementById("startupError");
+    const text=document.getElementById("startupErrorText");
+    const loading=document.getElementById("loadingScreen");
+    if(loading) loading.style.display="none";
+    if(box){
+      box.style.display="block";
+      if(text) text.textContent =
+        error?.stack || error?.message || String(error || "Error desconocido");
+    }
+  }
+  window.addEventListener("error", function(e){
+    if(e.filename && e.filename.includes("firebase")) showStartupError(e.error || e.message);
+  });
+  window.addEventListener("unhandledrejection", function(e){
+    showStartupError(e.reason);
+  });
+})();
+</script>
+<script type="module">
     import {
       initializeApp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -2499,6 +2477,7 @@
       getDocs,
       limit
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
     import {
       getStorage,
       ref as storageRef,
@@ -2532,10 +2511,33 @@
       appId: "1:167050108230:web:25e3ad1e915678d91fd947"
     };
 
-    const firebaseApp = initializeApp(firebaseConfig);
-    const auth = getAuth(firebaseApp);
-    const db = getFirestore(firebaseApp);
-    const storage = getStorage(firebaseApp);
+    let firebaseApp;
+    let auth;
+    let db;
+    let storage;
+
+    try {
+      firebaseApp = initializeApp(firebaseConfig);
+      auth = getAuth(firebaseApp);
+      db = getFirestore(firebaseApp);
+      storage = getStorage(firebaseApp);
+    } catch (firebaseInitError) {
+      console.error("Firebase no pudo inicializarse:", firebaseInitError);
+      const errorBox = document.getElementById("startupError");
+      const errorText = document.getElementById("startupErrorText");
+      const loading = document.getElementById("loadingScreen");
+
+      if (loading) loading.style.display = "none";
+      if (errorBox) errorBox.style.display = "block";
+      if (errorText) {
+        errorText.textContent =
+          firebaseInitError?.stack ||
+          firebaseInitError?.message ||
+          String(firebaseInitError);
+      }
+
+      throw firebaseInitError;
+    }
 
     let currentUser = null;
     let currentUserData = null;
@@ -2547,7 +2549,8 @@
     let unsubscribeEvents = null;
     let unsubscribePet = null;
     let unsubscribeCouple = null;
-let calendarDate = new Date();
+
+    let calendarDate = new Date();
     let selectedCalendarDate = new Date();
     let eventsCache = [];
     let messagesCache = [];
@@ -2867,6 +2870,7 @@ let calendarDate = new Date();
 
       partnerData = await getCurrentUserData(currentUserData.partnerId);
 
+      startPresence();
       updateUserInterface();
       showOnlyScreen("appScreen");
       showPage("homePage");
@@ -2974,6 +2978,80 @@ let calendarDate = new Date();
       }
     }
 
+
+    let presenceInterval = null;
+
+    async function updatePresence(isOnline = true) {
+      if (!currentUser) return;
+
+      try {
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          isOnline,
+          lastSeen: serverTimestamp()
+        });
+      } catch (error) {
+        console.warn("No se pudo actualizar presencia:", error);
+      }
+    }
+
+    function startPresence() {
+      if (!currentUser) return;
+
+      if (presenceInterval) {
+        clearInterval(presenceInterval);
+      }
+
+      updatePresence(true);
+
+      presenceInterval = setInterval(() => {
+        updatePresence(true);
+      }, 20000);
+
+      document.addEventListener("visibilitychange", () => {
+        updatePresence(document.visibilityState === "visible");
+      });
+
+      window.addEventListener("pagehide", () => {
+        updatePresence(false);
+      });
+    }
+
+    function getPartnerOnlineState(user) {
+      if (!user) {
+        return { online: false, text: "Desconectado" };
+      }
+
+      if (user.isOnline === true) {
+        return { online: true, text: "En línea" };
+      }
+
+      if (user.lastSeen) {
+        const lastSeen = user.lastSeen.toDate
+          ? user.lastSeen.toDate()
+          : new Date(user.lastSeen);
+
+        const minutes = Math.floor((Date.now() - lastSeen.getTime()) / 60000);
+
+        if (minutes < 2) {
+          return { online: true, text: "En línea" };
+        }
+
+        if (minutes < 60) {
+          return { online: false, text: `Activo hace ${minutes} min` };
+        }
+
+        const hours = Math.floor(minutes / 60);
+
+        if (hours < 24) {
+          return { online: false, text: `Activo hace ${hours} h` };
+        }
+
+        return { online: false, text: "Desconectado" };
+      }
+
+      return { online: false, text: "Desconectado" };
+    }
+
     function updateUserInterface() {
       const userName = currentUserData?.name || "Usuario";
       const partnerName = partnerData?.name || "Tu pareja";
@@ -2986,6 +3064,19 @@ let calendarDate = new Date();
 
       $("chatContactName").textContent = partnerName;
       $("chatHeaderName").textContent = partnerName;
+
+      const partnerStatus = getPartnerOnlineState(partnerData);
+      const statusText = partnerStatus.text;
+
+      const contactStatus = $("chatContactAvatar")?.parentElement?.querySelector("small");
+      if (contactStatus) {
+        contactStatus.textContent = partnerStatus.online ? "● En línea" : statusText;
+        contactStatus.style.color = partnerStatus.online ? "var(--success)" : "var(--muted)";
+      }
+
+      $("chatOnlineStatus").textContent = statusText;
+      $("chatOnlineStatus").style.color =
+        partnerStatus.online ? "var(--success)" : "var(--muted)";
 
       $("profileNameDisplay").textContent = userName;
       $("profileEmailDisplay").textContent = currentUserData?.email || "";
@@ -3025,7 +3116,7 @@ let calendarDate = new Date();
       if (imageUrl) {
         chatMain.classList.add("chat-bg-custom");
         chatMain.style.backgroundImage =
-          `linear-gradient(rgba(255,255,255,.08), rgba(255,255,255,.08)), url("${imageUrl}")`;
+          `linear-gradient(rgba(255,255,255,.10), rgba(255,255,255,.10)), url("${imageUrl}")`;
       } else {
         chatMain.classList.remove("chat-bg-custom");
         chatMain.style.backgroundImage = "";
@@ -3049,128 +3140,61 @@ let calendarDate = new Date();
             ...snapshot.data()
           };
 
-          const aiUrl = coupleData.chatBackgroundUrl || "";
-          if (aiUrl) {
-            setChatBackground(aiUrl);
+          const backgroundUrl = coupleData.chatBackgroundUrl || "";
+          if (backgroundUrl) {
+            setChatBackground(backgroundUrl);
+          } else {
+            setChatBackground("");
           }
         },
         error => console.error("Error al cargar configuración de pareja:", error)
       );
     }
 
-    async function generateAiChatBackground() {
-      hideError("aiBackgroundError");
-
-      if (!coupleId || !currentUser) {
-        showError("aiBackgroundError", "Primero conecta tu cuenta con tu pareja.");
-        return;
-      }
-
-      if (!AI_BACKGROUND_FUNCTION_URL) {
-        showError(
-          "aiBackgroundError",
-          "Falta configurar la Cloud Function de IA. La interfaz ya está lista, pero necesitas conectar el backend seguro."
-        );
-        return;
-      }
-
-      const promptInput = $("aiBackgroundPrompt");
-      const generateBtn = $("generateAiBackgroundBtn");
-      const preview = $("aiBackgroundPreview");
-      const prompt = promptInput.value.trim();
-
-      if (prompt.length < 8) {
-        showError("aiBackgroundError", "Describe el fondo con un poco más de detalle.");
-        return;
-      }
-
-      generateBtn.disabled = true;
-      generateBtn.innerHTML = `<span class="ai-loading"><span class="ai-mini-spinner"></span> Creando...</span>`;
-      preview.classList.remove("has-image");
-      preview.style.backgroundImage = "";
-      preview.textContent = "La IA está creando vuestro fondo...";
-
-      try {
-        const idToken = await currentUser.getIdToken();
-
-        const response = await fetch(AI_BACKGROUND_FUNCTION_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${idToken}`
-          },
-          body: JSON.stringify({
-            prompt,
-            coupleId
-          })
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok || !data.imageUrl) {
-          throw new Error(data.error || "No se pudo generar el fondo.");
-        }
-
-        preview.classList.add("has-image");
-        preview.style.backgroundImage = `url("${data.imageUrl}")`;
-        preview.textContent = "Vista previa del nuevo fondo ❤️";
-
-        await updateDoc(doc(db, "couples", coupleId), {
-          chatBackgroundUrl: data.imageUrl,
-          chatBackgroundPrompt: prompt,
-          chatBackgroundUpdatedBy: currentUser.uid,
-          chatBackgroundUpdatedAt: serverTimestamp()
-        });
-
-        setChatBackground(data.imageUrl);
-        showToast("¡Fondo creado y compartido con tu pareja! ✨");
-
-      } catch (error) {
-        console.error("Error generando fondo IA:", error);
-        showError(
-          "aiBackgroundError",
-          error.message || "No se pudo generar el fondo."
-        );
-      } finally {
-        generateBtn.disabled = false;
-        generateBtn.textContent = "✨ Generar fondo";
-      }
-    }
-
-    function getChatMain() {
-      return $("messagesContainer")?.closest(".chat-main");
-    }
-
-    function setChatBackground(imageUrl) {
-      const chatMain = getChatMain();
-      if (!chatMain) return;
-      chatMain.classList.remove("chat-bg-lavender","chat-bg-blue","chat-bg-cream","chat-bg-dark","chat-bg-custom");
-      if (imageUrl) {
-        chatMain.classList.add("chat-bg-custom");
-        chatMain.style.backgroundImage =
-          `linear-gradient(rgba(255,255,255,.10),rgba(255,255,255,.10)),url("${imageUrl}")`;
-      } else {
-        chatMain.style.backgroundImage = "";
-      }
-    }
-
-    function compressChatBackground(file, maxSize=1600) {
-      return new Promise((resolve,reject) => {
+    function compressChatBackground(file, maxSize = 1600) {
+      return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = e => {
-          const img = new Image();
-          img.onload = () => {
-            const scale = Math.min(1,maxSize/Math.max(img.width,img.height));
+
+        reader.onload = event => {
+          const image = new Image();
+
+          image.onload = () => {
+            const scale = Math.min(
+              1,
+              maxSize / Math.max(image.width, image.height)
+            );
+
             const canvas = document.createElement("canvas");
-            canvas.width = Math.max(1,Math.round(img.width*scale));
-            canvas.height = Math.max(1,Math.round(img.height*scale));
-            canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
-            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("No se pudo preparar la imagen.")),
-              "image/jpeg",.82);
+            canvas.width = Math.max(1, Math.round(image.width * scale));
+            canvas.height = Math.max(1, Math.round(image.height * scale));
+
+            const context = canvas.getContext("2d");
+            context.drawImage(
+              image,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+
+            canvas.toBlob(
+              blob => {
+                if (!blob) {
+                  reject(new Error("No se pudo preparar la imagen."));
+                  return;
+                }
+
+                resolve(blob);
+              },
+              "image/jpeg",
+              0.82
+            );
           };
-          img.onerror = () => reject(new Error("La imagen no es válida."));
-          img.src = e.target.result;
+
+          image.onerror = () => reject(new Error("La imagen no es válida."));
+          image.src = event.target.result;
         };
+
         reader.onerror = () => reject(new Error("No se pudo leer la imagen."));
         reader.readAsDataURL(file);
       });
@@ -3179,60 +3203,117 @@ let calendarDate = new Date();
     async function uploadChatBackground(event) {
       const file = event.target.files?.[0];
       if (!file) return;
-      const status = $("chatBackgroundUploadStatus");
+
       if (!coupleId || !currentUser) {
         showToast("Primero conecta tu cuenta con tu pareja.");
         event.target.value = "";
         return;
       }
+
       if (!file.type.startsWith("image/")) {
-        status.textContent = "❌ Selecciona una imagen válida.";
+        showToast("Selecciona una imagen válida.");
         event.target.value = "";
         return;
       }
+
+      const status = $("chatBackgroundUploadStatus");
+      const button = $("chatBackgroundFile");
+
       try {
         status.textContent = "⏳ Preparando imagen...";
-        const blob = await compressChatBackground(file);
+
+        const compressedBlob = await compressChatBackground(file);
+
         status.textContent = "☁️ Subiendo fondo...";
-        const fileRef = storageRef(storage,`chatBackgrounds/${coupleId}/background.jpg`);
-        await uploadBytes(fileRef,blob,{contentType:"image/jpeg",customMetadata:{coupleId,uploadedBy:currentUser.uid}});
-        const url = await getDownloadURL(fileRef);
-        await updateDoc(doc(db,"couples",coupleId),{
-          chatBackgroundUrl:url,
-          chatBackgroundUpdatedBy:currentUser.uid,
-          chatBackgroundUpdatedAt:serverTimestamp()
+
+        const fileRef = storageRef(
+          storage,
+          `chatBackgrounds/${coupleId}/background.jpg`
+        );
+
+        await uploadBytes(
+          fileRef,
+          compressedBlob,
+          {
+            contentType: "image/jpeg",
+            customMetadata: {
+              coupleId,
+              uploadedBy: currentUser.uid
+            }
+          }
+        );
+
+        const imageUrl = await getDownloadURL(fileRef);
+
+        await updateDoc(doc(db, "couples", coupleId), {
+          chatBackgroundUrl: imageUrl,
+          chatBackgroundUpdatedBy: currentUser.uid,
+          chatBackgroundUpdatedAt: serverTimestamp()
         });
-        setChatBackground(url);
+
+        setChatBackground(imageUrl);
         status.textContent = "✅ Fondo guardado para los dos.";
         showToast("¡Fondo del chat actualizado! ❤️");
-      } catch(error) {
-        console.error(error);
-        status.textContent = error.code === "storage/unauthorized"
-          ? "❌ Revisa las reglas de Firebase Storage."
-          : "❌ No se pudo subir la imagen.";
+
+      } catch (error) {
+        console.error("Error al subir fondo:", error);
+
+        if (error.code === "storage/unauthorized") {
+          status.textContent =
+            "❌ Firebase Storage rechazó la subida. Revisa las reglas de Storage.";
+        } else if (error.code === "storage/bucket-not-found") {
+          status.textContent =
+            "❌ Storage todavía no está activado en tu proyecto Firebase.";
+        } else {
+          status.textContent =
+            "❌ No se pudo subir la imagen. Revisa Firebase Storage.";
+        }
       } finally {
-        event.target.value = "";
+        button.value = "";
       }
     }
 
     async function removeChatBackground() {
       if (!coupleId || !currentUser) return;
-      if (!confirm("¿Quieres quitar el fondo personalizado para ambos?")) return;
+
+      const confirmed = confirm(
+        "¿Quieres quitar el fondo personalizado para ambos?"
+      );
+
+      if (!confirmed) return;
+
+      const status = $("chatBackgroundUploadStatus");
+
       try {
-        const fileRef = storageRef(storage,`chatBackgrounds/${coupleId}/background.jpg`);
-        try { await deleteObject(fileRef); }
-        catch(error) { if(error.code !== "storage/object-not-found") throw error; }
-        await updateDoc(doc(db,"couples",coupleId),{
-          chatBackgroundUrl:"",
-          chatBackgroundUpdatedBy:currentUser.uid,
-          chatBackgroundUpdatedAt:serverTimestamp()
+        status.textContent = "⏳ Quitando fondo...";
+
+        const fileRef = storageRef(
+          storage,
+          `chatBackgrounds/${coupleId}/background.jpg`
+        );
+
+        try {
+          await deleteObject(fileRef);
+        } catch (error) {
+          // Si el archivo ya no existe, igualmente quitamos su referencia.
+          if (error.code !== "storage/object-not-found") {
+            throw error;
+          }
+        }
+
+        await updateDoc(doc(db, "couples", coupleId), {
+          chatBackgroundUrl: "",
+          chatBackgroundUpdatedBy: currentUser.uid,
+          chatBackgroundUpdatedAt: serverTimestamp()
         });
+
         setChatBackground("");
-        $("chatBackgroundUploadStatus").textContent = "Fondo personalizado eliminado.";
+        status.textContent = "Fondo personalizado eliminado.";
         showToast("Fondo eliminado.");
-      } catch(error) {
-        console.error(error);
-        $("chatBackgroundUploadStatus").textContent = "❌ No se pudo quitar el fondo.";
+
+      } catch (error) {
+        console.error("Error quitando fondo:", error);
+        status.textContent = "❌ No se pudo quitar el fondo.";
       }
     }
 
@@ -3387,16 +3468,16 @@ let calendarDate = new Date();
       );
       chatMain.style.backgroundImage = "";
 
+      if (coupleData?.chatBackgroundUrl) {
+        setChatBackground(coupleData.chatBackgroundUrl);
+        return;
+      }
+
       if (selected !== "default") {
         chatMain.classList.add(`chat-bg-${selected}`);
       }
 
-      // Si existe un fondo IA guardado para la pareja, tiene prioridad.
-      if (coupleData?.chatBackgroundUrl) {
-        setChatBackground(coupleData.chatBackgroundUrl);
-      }
 
-      localStorage.setItem("chatBackground", selected);
     }
 
     function loadChatSettings() {
@@ -3433,18 +3514,15 @@ let calendarDate = new Date();
     async function handleProfilePhotoFile(event) {
       const file = event.target.files?.[0];
       if (!file) return;
+
       if (!file.type.startsWith("image/")) {
         showError("profileModalError", "Selecciona una imagen válida.");
+        event.target.value = "";
         return;
       }
-      try {
-        const photoData = await compressImage(file);
-        $("editProfilePhoto").value = photoData;
-        showToast("Foto seleccionada. Pulsa Guardar cambios.");
-      } catch (error) {
-        console.error(error);
-        showError("profileModalError", "No se pudo cargar la foto.");
-      }
+
+      $("editProfilePhoto").value = file.name;
+      showToast("Foto seleccionada. Pulsa Guardar cambios. 📷");
     }
 
     async function loadPet() {
@@ -3617,6 +3695,7 @@ let calendarDate = new Date();
           $("eventCount").textContent = eventsCache.length;
           renderCalendar();
           renderEvents();
+          checkTodayReminders();
         },
         error => {
           console.error("Error al cargar eventos:", error);
@@ -3624,51 +3703,115 @@ let calendarDate = new Date();
       );
     }
 
+    // =========================
+    // EVENTOS RECURRENTES
+    // =========================
     function isMonthlyAnniversary(event) {
       if (!event || !event.date) return false;
-      if (event.recurrence === "monthly" || event.recurrenceType === "monthly") return true;
-      return String(event.title || "").toLowerCase().includes("aniversario");
-    }
 
-    function getRecurringOccurrence(event, year, month) {
-      if (!isMonthlyAnniversary(event)) return null;
-      const base = new Date(`${event.date}T12:00:00`);
-      if (Number.isNaN(base.getTime())) return null;
-      const candidate = new Date(year,month,base.getDate(),12);
-      if (candidate.getFullYear() !== year || candidate.getMonth() !== month || candidate.getDate() !== base.getDate()) return null;
-      const baseMonth = base.getFullYear()*12 + base.getMonth();
-      return year*12 + month >= baseMonth ? candidate : null;
+      if (event.recurrence === "monthly") return true;
+
+      // Compatibilidad con aniversarios creados antes de esta actualización.
+      const title = String(event.title || "").toLowerCase();
+      return title.includes("aniversario");
     }
 
     function getEventsForDate(dateString) {
       const date = new Date(`${dateString}T12:00:00`);
       if (Number.isNaN(date.getTime())) return [];
+
       return eventsCache.filter(event => {
-        if (!isMonthlyAnniversary(event)) return event.date === dateString;
-        const occurrence = getRecurringOccurrence(event,date.getFullYear(),date.getMonth());
-        return occurrence && occurrence.getDate() === date.getDate();
+        // Evento normal: coincide exactamente.
+        if (!isMonthlyAnniversary(event)) {
+          return event.date === dateString;
+        }
+
+        // Aniversario mensual: se repite el mismo día del mes desde
+        // el mes en que se creó/guardó.
+        const base = new Date(`${event.date}T12:00:00`);
+        if (Number.isNaN(base.getTime())) return false;
+
+        const sameDay = date.getDate() === base.getDate();
+        const sameOrLater =
+          date.getFullYear() > base.getFullYear() ||
+          (
+            date.getFullYear() === base.getFullYear() &&
+            date.getMonth() >= base.getMonth()
+          );
+
+        return sameDay && sameOrLater;
       });
     }
 
-    function getNextOccurrence(event, fromDate=new Date()) {
+    function getNextOccurrence(event, fromDate = new Date()) {
       const base = new Date(`${event.date}T12:00:00`);
       if (Number.isNaN(base.getTime())) return null;
-      if (!isMonthlyAnniversary(event)) return base >= fromDate ? base : null;
-      for(let offset=0;offset<=24;offset++){
-        const candidate=getRecurringOccurrence(event,fromDate.getFullYear(),fromDate.getMonth()+offset);
-        if(candidate && candidate>=new Date(fromDate.getFullYear(),fromDate.getMonth(),fromDate.getDate())) return candidate;
+
+      if (!isMonthlyAnniversary(event)) {
+        const exact = new Date(`${event.date}T12:00:00`);
+        return exact >= fromDate ? exact : null;
       }
+
+      // Buscar el próximo mismo día del mes.
+      for (let offset = 0; offset <= 24; offset++) {
+        const candidate = new Date(
+          fromDate.getFullYear(),
+          fromDate.getMonth() + offset,
+          base.getDate(),
+          12
+        );
+
+        // Evita fechas inválidas como 31 de febrero.
+        if (
+          candidate.getMonth() !==
+          ((fromDate.getMonth() + offset) % 12)
+        ) {
+          continue;
+        }
+
+        const candidateString = getLocalDateString(candidate);
+        const candidateMonth =
+          candidate.getFullYear() * 12 + candidate.getMonth();
+        const baseMonth =
+          base.getFullYear() * 12 + base.getMonth();
+
+        if (
+          candidateMonth >= baseMonth &&
+          candidate >= new Date(
+            fromDate.getFullYear(),
+            fromDate.getMonth(),
+            fromDate.getDate(),
+            0
+          )
+        ) {
+          return candidate;
+        }
+      }
+
       return null;
     }
 
+    function formatEventDate(date) {
+      return date.toLocaleDateString("es-PE", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
     function checkTodayReminders() {
-      const today=getLocalDateString(new Date());
-      getEventsForDate(today).forEach(event=>{
-        if(!isMonthlyAnniversary(event)) return;
-        const key=`anniversary-${event.id}-${today}`;
-        if(sessionStorage.getItem(key)) return;
-        sessionStorage.setItem(key,"1");
-        showToast(`❤️ Hoy es su aniversario: ${event.title}`);
+      const today = getLocalDateString(new Date());
+      const todayEvents = getEventsForDate(today);
+
+      todayEvents.forEach(event => {
+        const key = `reminder-${event.id}-${today}`;
+        if (sessionStorage.getItem(key)) return;
+
+        sessionStorage.setItem(key, "1");
+
+        if (isMonthlyAnniversary(event)) {
+          showToast(`❤️ Hoy es su aniversario: ${event.title}`);
+        }
       });
     }
 
@@ -3742,13 +3885,16 @@ let calendarDate = new Date();
         <div class="calendar-day-number">${date.getDate()}</div>
         ${events
           .slice(0, 2)
-          .map(event => `<span class="calendar-event-dot">${escapeHTML(event.title)}</span>`)
+          .map(event => `
+            <span class="calendar-event-dot ${isMonthlyAnniversary(event) ? "recurring" : ""}">
+              ${escapeHTML(event.title)}
+            </span>
+          `)
           .join("")}
       `;
 
       element.addEventListener("click", () => {
-        $("eventDateInput").value = dateString;
-        showModal("eventModal");
+        selectCalendarDay(date);
       });
 
       return element;
@@ -3767,48 +3913,44 @@ let calendarDate = new Date();
 
       if (eventsCache.length === 0) {
         container.innerHTML = `
-          <p style="color: var(--muted); font-size: 13px;">
+          <p style="color:var(--muted);font-size:13px;">
             Todavía no tienen eventos.
           </p>
         `;
         return;
       }
 
-      const sortedEvents = [...eventsCache].sort((a, b) => {
-        return a.date.localeCompare(b.date);
-      });
+      const today = new Date();
+      today.setHours(0,0,0,0);
 
-      container.innerHTML = sortedEvents.map(event => {
-        const date = new Date(`${event.date}T12:00:00`);
+      const upcoming = eventsCache
+        .map(event => ({
+          ...event,
+          nextOccurrence: getNextOccurrence(event, today)
+        }))
+        .filter(event => event.nextOccurrence)
+        .sort((a,b) => a.nextOccurrence - b.nextOccurrence);
 
-        return `
-          <div class="event-item">
-            <div class="event-date">
-              ${date.toLocaleDateString("es-PE", { day: "2-digit" })}
-              <br>
-              ${date.toLocaleDateString("es-PE", { month: "short" })}
-            </div>
-
-            <div class="event-info">
-              <strong>${escapeHTML(event.title)}</strong>
-              <small>${escapeHTML(event.description || "Sin descripción")}</small>
-            </div>
-
-            <button
-              class="event-delete"
-              data-delete-event="${event.id}"
-              title="Eliminar evento"
-            >
-              ×
-            </button>
+      container.innerHTML = upcoming.map(event => `
+        <div class="event-item">
+          <div class="event-date">
+            ${event.nextOccurrence.toLocaleDateString("es-PE",{day:"2-digit"})}<br>
+            ${event.nextOccurrence.toLocaleDateString("es-PE",{month:"short"})}
           </div>
-        `;
-      }).join("");
+          <div class="event-info">
+            <strong>${escapeHTML(event.title)}</strong>
+            <small>
+              ${isMonthlyAnniversary(event)
+                ? `❤️ Cada mes · Próximo: ${event.nextOccurrence.toLocaleDateString("es-PE",{day:"2-digit",month:"short",year:"numeric"})}`
+                : escapeHTML(event.description || "Sin descripción")}
+            </small>
+          </div>
+          <button class="event-delete" data-delete-event="${event.id}" title="Eliminar evento">×</button>
+        </div>
+      `).join("");
 
       document.querySelectorAll("[data-delete-event]").forEach(button => {
-        button.addEventListener("click", () => {
-          deleteEvent(button.dataset.deleteEvent);
-        });
+        button.addEventListener("click", () => deleteEvent(button.dataset.deleteEvent));
       });
     }
 
@@ -3825,15 +3967,15 @@ let calendarDate = new Date();
       }
 
       try {
+        const isAnniversary = title.toLowerCase().includes("aniversario");
+
         await addDoc(
           collection(db, "couples", coupleId, "events"),
           {
             title,
             date,
             description,
-            recurrence: title.toLowerCase().includes("aniversario") ? "monthly" : "none",
-            recurrenceType: title.toLowerCase().includes("aniversario") ? "monthly" : "none",
-            recurringDay: title.toLowerCase().includes("aniversario") ? Number(date.split("-")[2]) : null,
+            recurrence: isAnniversary ? "monthly" : "none",
             createdBy: currentUser.uid,
             createdAt: serverTimestamp()
           }
@@ -3869,17 +4011,88 @@ let calendarDate = new Date();
       }
     }
 
+
+    async function uploadProfilePhoto(file) {
+      if (!file || !currentUser) return "";
+
+      if (!file.type.startsWith("image/")) {
+        throw new Error("Selecciona una imagen válida.");
+      }
+
+      const blob = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = event => {
+          const image = new Image();
+
+          image.onload = () => {
+            const maxSize = 800;
+            const scale = Math.min(
+              1,
+              maxSize / Math.max(image.width, image.height)
+            );
+
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.max(1, Math.round(image.width * scale));
+            canvas.height = Math.max(1, Math.round(image.height * scale));
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(
+              result => result
+                ? resolve(result)
+                : reject(new Error("No se pudo preparar la foto.")),
+              "image/jpeg",
+              0.82
+            );
+          };
+
+          image.onerror = () => reject(new Error("La imagen no es válida."));
+          image.src = event.target.result;
+        };
+
+        reader.onerror = () => reject(new Error("No se pudo leer la foto."));
+        reader.readAsDataURL(file);
+      });
+
+      const fileRef = storageRef(
+        storage,
+        `profilePhotos/${currentUser.uid}/profile.jpg`
+      );
+
+      await uploadBytes(fileRef, blob, {
+        contentType: "image/jpeg",
+        customMetadata: {
+          uid: currentUser.uid
+        }
+      });
+
+      return await getDownloadURL(fileRef);
+    }
+
+    async function deleteProfilePhotoFromStorage() {
+      if (!currentUser) return;
+
+      const fileRef = storageRef(
+        storage,
+        `profilePhotos/${currentUser.uid}/profile.jpg`
+      );
+
+      try {
+        await deleteObject(fileRef);
+      } catch (error) {
+        if (error.code !== "storage/object-not-found") throw error;
+      }
+    }
+
     async function saveProfile() {
       hideError("profileModalError");
 
       const name = $("editProfileName").value.trim();
       const bio = $("editProfileBio").value.trim();
-      const photoURL = $("editProfilePhoto").value.trim();
-
-      if (photoURL.startsWith("data:") && photoURL.length > 900000) {
-        showError("profileModalError", "La foto es demasiado grande. Elige otra imagen.");
-        return;
-      }
+      const photoInput = $("profilePhotoFile");
+      const removePhoto = $("editProfilePhoto").value === "__REMOVE__";
 
       if (!name) {
         showError("profileModalError", "El nombre no puede estar vacío.");
@@ -3887,14 +4100,25 @@ let calendarDate = new Date();
       }
 
       try {
+        let photoURL = currentUserData?.photoURL || "";
+
+        if (removePhoto) {
+          await deleteProfilePhotoFromStorage();
+          photoURL = "";
+        } else if (photoInput?.files?.[0]) {
+          photoURL = await uploadProfilePhoto(photoInput.files[0]);
+        }
+
         await updateDoc(doc(db, "users", currentUser.uid), {
           name,
           bio,
-          photoURL
+          photoURL,
+          updatedAt: serverTimestamp()
         });
 
         await updateProfile(currentUser, {
-          displayName: name
+          displayName: name,
+          photoURL: photoURL || null
         });
 
         currentUserData = {
@@ -3906,10 +4130,19 @@ let calendarDate = new Date();
 
         updateUserInterface();
         closeModal("profileModal");
-        showToast("Perfil actualizado.");
+        $("profilePhotoFile").value = "";
+        $("editProfilePhoto").value = photoURL;
+
+        showToast("Perfil actualizado correctamente. ❤️");
       } catch (error) {
-        console.error(error);
-        showError("profileModalError", "No se pudo actualizar el perfil.");
+        console.error("Error guardando perfil:", error);
+
+        const message =
+          error.code === "storage/unauthorized"
+            ? "Firebase Storage rechazó la foto. Revisa las reglas de Storage."
+            : "No se pudo actualizar el perfil.";
+
+        showError("profileModalError", message);
       }
     }
 
@@ -3917,6 +4150,7 @@ let calendarDate = new Date();
       $("editProfileName").value = currentUserData?.name || "";
       $("editProfileBio").value = currentUserData?.bio || "";
       $("editProfilePhoto").value = currentUserData?.photoURL || "";
+      $("profilePhotoFile").value = "";
 
       showModal("profileModal");
     }
@@ -3984,16 +4218,23 @@ let calendarDate = new Date();
 
       $("chatColorInput").addEventListener("input", applyChatColor);
       $("chatBackgroundSelect").addEventListener("change", applyChatBackground);
-      $("chatBackgroundFile")?.addEventListener("change", uploadChatBackground);
-      $("removeChatBackgroundBtn")?.addEventListener("click", removeChatBackground);
-
       loadChatSettings();
+
+      $("chatBackgroundFile").addEventListener(
+        "change",
+        uploadChatBackground
+      );
+
+      $("removeChatBackgroundBtn").addEventListener(
+        "click",
+        removeChatBackground
+      );
 
       $("profilePhotoFile").addEventListener("change", handleProfilePhotoFile);
       $("removeProfilePhotoBtn").addEventListener("click", () => {
-        $("editProfilePhoto").value = "";
+        $("editProfilePhoto").value = "__REMOVE__";
         $("profilePhotoFile").value = "";
-        showToast("Foto eliminada. Pulsa Guardar cambios para confirmar.");
+        showToast("Foto marcada para eliminar. Pulsa Guardar cambios.");
       });
 
       $("showTimeToggle").addEventListener("change", renderMessages);
@@ -4047,6 +4288,14 @@ let calendarDate = new Date();
       });
 
       $("saveEventBtn").addEventListener("click", saveEvent);
+      $("addEventForSelectedDayBtn")?.addEventListener("click", () => {
+        if (selectedCalendarDate) {
+          $("eventDateInput").value = getLocalDateString(selectedCalendarDate);
+        }
+        showModal("eventModal");
+      });
+
+
 
       $("prevMonthBtn").addEventListener("click", () => {
         calendarDate.setMonth(calendarDate.getMonth() - 1);
@@ -4080,7 +4329,17 @@ let calendarDate = new Date();
       });
     }
 
-    initializeEvents();
+    try {
+      initializeEvents();
+    } catch (error) {
+      console.error("Error preparando la interfaz:", error);
+      const errorBox = document.getElementById("startupError");
+      const errorText = document.getElementById("startupErrorText");
+      const loading = document.getElementById("loadingScreen");
+      if (loading) loading.style.display = "none";
+      if (errorBox) errorBox.style.display = "block";
+      if (errorText) errorText.textContent = error?.stack || error?.message || String(error);
+    }
 
     onAuthStateChanged(auth, async user => {
       try {
@@ -4111,6 +4370,25 @@ let calendarDate = new Date();
         hideElement("loadingScreen");
       }
     });
+    const STARTUP_TIMEOUT = setTimeout(() => {
+      const loading = document.getElementById("loadingScreen");
+      const authScreen = document.getElementById("authScreen");
+      const startupError = document.getElementById("startupError");
+      const startupText = document.getElementById("startupErrorText");
+
+      if (
+        loading &&
+        !loading.classList.contains("hidden") &&
+        getComputedStyle(loading).display !== "none"
+      ) {
+        loading.style.display = "none";
+        if (startupError) startupError.style.display = "block";
+        if (startupText) {
+          startupText.textContent =
+            "Firebase no respondió a tiempo. Comprueba que Authentication esté activado y que estás abriendo la página desde un servidor web (por ejemplo, Live Server), no directamente como archivo file://.";
+        }
+      }
+    }, 12000);
   </script>
 </body>
 </html>
