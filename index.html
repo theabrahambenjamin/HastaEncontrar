@@ -2747,6 +2747,14 @@
   window.addEventListener("unhandledrejection", function(e){
     showStartupError(e.reason);
   });
+  setTimeout(function(){
+    const loading=document.getElementById("loadingScreen");
+    const auth=document.getElementById("authScreen");
+    if(loading && getComputedStyle(loading).display !== "none"){
+      loading.style.display="none";
+      if(auth) auth.classList.remove("hidden");
+    }
+  }, 3500);
 })();
 </script>
 <script type="module">
@@ -3144,14 +3152,25 @@
       return errors[error.code] || "Ocurrió un error. Intenta nuevamente.";
     }
 
+    function withTimeout(promise, ms, label) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => setTimeout(() => reject(new Error(label || "La operación tardó demasiado.")), ms))
+      ]);
+    }
+
     async function prepareUserSession(user) {
       currentUser = user;
-      currentUserData = await getCurrentUserData(user.uid);
+
+      // La autenticación y el documento principal tienen prioridad. Si una consulta secundaria
+      // tarda demasiado, no dejamos la aplicación congelada en "Cargando...".
+      currentUserData = await withTimeout(getCurrentUserData(user.uid), 8000, "No se pudo leer tu perfil de Firebase.");
 
       if (!currentUserData) {
-        currentUserData = await createUserDocument(
-          user,
-          user.displayName || "Usuario"
+        currentUserData = await withTimeout(
+          createUserDocument(user, user.displayName || "Usuario"),
+          8000,
+          "No se pudo crear tu perfil en Firebase."
         );
       }
 
@@ -3162,26 +3181,41 @@
       }
 
       coupleId = currentUserData.coupleId;
-      coupleData = await getDoc(doc(db, "couples", coupleId));
 
-      if (coupleData.exists()) {
-        coupleData = {
-          id: coupleData.id,
-          ...coupleData.data()
-        };
+      try {
+        const coupleSnap = await withTimeout(
+          getDoc(doc(db, "couples", coupleId)),
+          7000,
+          "No se pudo cargar la conexión con tu pareja."
+        );
+        if (coupleSnap.exists()) coupleData = { id: coupleSnap.id, ...coupleSnap.data() };
+      } catch (e) {
+        console.warn("No se pudo cargar coupleData:", e);
+        coupleData = { id: coupleId };
       }
 
-      partnerData = await getCurrentUserData(currentUserData.partnerId);
+      try {
+        partnerData = await withTimeout(
+          getCurrentUserData(currentUserData.partnerId),
+          7000,
+          "No se pudo cargar el perfil de tu pareja."
+        );
+      } catch (e) {
+        console.warn("No se pudo cargar partnerData:", e);
+        partnerData = { id: currentUserData.partnerId, name: "Tu pareja" };
+      }
 
+      // Mostrar la app inmediatamente. Los módulos secundarios se cargan sin bloquear la entrada.
       startPresence();
       updateUserInterface();
       showOnlyScreen("appScreen");
       showPage("homePage");
 
-      loadMessages();
-      loadEvents();
-      loadPet();
-      loadCoupleChatSettings();
+      Promise.resolve().then(() => loadMessages()).catch(e => console.warn("Chat:", e));
+      Promise.resolve().then(() => loadEvents()).catch(e => console.warn("Calendario:", e));
+      Promise.resolve().then(() => loadPet()).catch(e => console.warn("Mascota:", e));
+      Promise.resolve().then(() => loadCoupleChatSettings()).catch(e => console.warn("Chat settings:", e));
+      Promise.resolve().then(() => watchMemories()).catch(e => console.warn("Recuerdos:", e));
     }
 
     async function connectPartner() {
@@ -5066,7 +5100,7 @@
       $("setRelationshipDateBtn")?.addEventListener("click",()=>{if(coupleData?.relationshipDate){$("relationshipDateModalInput").value=coupleData.relationshipDate;showModal("relationshipDateModal")}else openRelationshipDateEditor()});
       $("saveRelationshipDateBtn")?.addEventListener("click",()=>saveRelationshipDateValue($("relationshipDateInput").value));
       $("cancelRelationshipDateBtn")?.addEventListener("click",()=>$("relationshipDateActions")?.classList.add("hidden"));
-      $("saveRelationshipDateModalBtn")?.addEventListener("click",()=>saveRelationshipDateValue($("relationshipDateModalInput").value));watchIncomingCalls();watchMemories();
+      $("saveRelationshipDateModalBtn")?.addEventListener("click",()=>saveRelationshipDateValue($("relationshipDateModalInput").value));watchIncomingCalls();
     }
 
     try {
@@ -5124,12 +5158,14 @@
       ) {
         loading.style.display = "none";
         if (startupError) startupError.style.display = "block";
+        const auth = document.getElementById("authScreen");
+        if (auth) auth.classList.remove("hidden");
         if (startupText) {
           startupText.textContent =
             "Firebase no respondió a tiempo. Comprueba que Authentication esté activado y que estás abriendo la página desde un servidor web (por ejemplo, Live Server), no directamente como archivo file://.";
         }
       }
-    }, 12000);
+    }, 5000);
   </script>
 </body>
 </html>
